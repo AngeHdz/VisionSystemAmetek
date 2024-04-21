@@ -219,6 +219,7 @@ namespace VisionSystemAmetek
         private void listViewImage_MouseClick(object sender, MouseEventArgs e)
         {
             ListView listView = (ListView)sender;
+
             ListViewItem clickedItem = listView.GetItemAt(e.X, e.Y);
             pictureBoxMain.Image = null;
 
