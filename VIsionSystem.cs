@@ -5,6 +5,9 @@ using EmguClass.Tools;
 using MLClass;
 using EmguClass.Results.Types;
 using NumSharp.Extensions;
+using VisionSystemConfigFile;
+using VisionSystemAmetek.Train.Forms;
+using Emgu.CV.Ocl;
 
 namespace VisionSystemAmetek
 {
@@ -13,6 +16,7 @@ namespace VisionSystemAmetek
     {
         #region Variables
         MLModel model;
+
         EmguClass.TellTale? telltale = null;
         private static string SnapPath = @"C:\Ametek_Resources\VisionSystemML\Snap\Capture.bmp";
         private static string TellTaleModelPath = @"C:\Image\Model\TellTaleModel.mlnet";
@@ -20,6 +24,8 @@ namespace VisionSystemAmetek
         private static string PatternPath = @"C:\Image\Template\";
         private ImageList imagelist;
         private List<Bitmap> images = new List<Bitmap>();
+        private ProjectConfig Project;
+        private bool PanelButton = false;
         #endregion
 
         #region Constructor
@@ -39,6 +45,11 @@ namespace VisionSystemAmetek
             model.mlContext.Log += MlContext_Log;
             dataGridViewReport.CellFormatting += DataGridViewReport_CellFormatting;
             telltale.OnReportTime += Telltale_OnReportTime;
+            buttonCancel.Hide();
+            buttonSave.Hide();
+            panelbutton.Show();
+            PanelButton = true;
+            trainUserControl1.Hide();
         }
 
         private void Telltale_OnReportTime(object? sender, EmguClass.Args.TimerEventArgs e)
@@ -174,16 +185,6 @@ namespace VisionSystemAmetek
             telltale.AsyncProcess(SnapPath, ColorType.ambar, TestType.Hvac_Buttons, PatternPath);
             listViewImage.Items.Clear();
             OnStart();
-            //foreach (ImageResult r in telltale.imageResults)
-            //{
-            //    AddImage(r.Name, r.Bitmap);
-            //}
-
-            //telltale.imageResults[telltale.imageResults.Count - 1].Bitmap.Save(LastImage);
-
-            //DateTime horaActual = DateTime.Now;
-
-            //labelData.Text = horaActual.ToString("HH:mm:ss");
         }
 
 
@@ -237,6 +238,99 @@ namespace VisionSystemAmetek
             }
         }
 
-#endregion
+        #endregion
+
+        #region CreateAModel
+        private void buttonNewproject_Click(object sender, EventArgs e)
+        {
+            using (NewModel d = new NewModel())
+            {
+                d.ShowDialog();
+                if (d.success) 
+                {
+                    Project = d.NewConfig;
+
+                    if (Project != null)
+                    {
+                        buttonLoad.Hide();
+                        buttonNewproject.Hide();
+                        buttonCancel.Show();
+                        buttonSave.Show();
+                        trainUserControl1.Show();
+                        trainUserControl1.SetProject(Project);
+                        return;
+                    }
+                }
+            }
+
+        }
+
+        private void buttonLoad_Click(object sender, EventArgs e)
+        {
+            var fileContent = string.Empty;
+            var filePath = string.Empty;
+
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.InitialDirectory = "C:\\MLProyects";
+                openFileDialog.Filter = "json files (*.json)|*.json";
+                openFileDialog.FilterIndex = 1;
+                openFileDialog.RestoreDirectory = false;
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    //Get the path of specified file
+                    filePath = openFileDialog.FileName;
+
+                    Project = ConfigFile.LoadConfig(filePath);
+
+                    if (Project != null)
+                    {
+                        buttonLoad.Hide();
+                        buttonNewproject.Hide();
+                        buttonCancel.Show();
+                        buttonSave.Show();
+                        trainUserControl1.Show();
+                        trainUserControl1.SetProject(Project);
+                        return;
+                    }
+                }
+            }
+
+        }
+
+        private void buttonCancel_Click(object sender, EventArgs e)
+        {
+            buttonLoad.Show();
+            buttonNewproject.Show();
+            buttonCancel.Hide();
+            buttonSave.Hide();
+            trainUserControl1.Hide();
+            Project = null;
+            trainUserControl1.Cancel(); 
+        }
+
+        #endregion
+
+        private void buttonHide_Click(object sender, EventArgs e)
+        {
+            if (PanelButton)
+            {
+                panelbutton.Hide();
+                panelButtonHide.Width = panelButtonHide.Width - panelbutton.Width;
+                PanelButton = false;
+            }
+            else
+            {
+                panelbutton.Show();
+                PanelButton = true;
+                panelButtonHide.Width = panelButtonHide.Width + panelbutton.Width;
+            }
+        }
+
+        private void buttonSave_Click(object sender, EventArgs e)
+        {
+            ConfigFile.SaveConfig(trainUserControl1.GetProject());
+        }
     }
 }

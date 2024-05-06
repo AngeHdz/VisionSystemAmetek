@@ -56,6 +56,16 @@
             labelDesc = new Label();
             buttonTest = new Button();
             tabPage2 = new TabPage();
+            panelMain = new Panel();
+            trainUserControl1 = new TrainForm.TrainUserControl();
+            panelButtonHide = new Panel();
+            buttonHide = new Button();
+            panelbutton = new Panel();
+            buttonSave = new Button();
+            buttonCancel = new Button();
+            buttonLoad = new Button();
+            buttonNewproject = new Button();
+            backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             tabControl1.SuspendLayout();
             tabPageTallTale.SuspendLayout();
             panel2.SuspendLayout();
@@ -74,6 +84,10 @@
             tabPage3.SuspendLayout();
             tabPage6.SuspendLayout();
             panel1.SuspendLayout();
+            tabPage2.SuspendLayout();
+            panelMain.SuspendLayout();
+            panelButtonHide.SuspendLayout();
+            panelbutton.SuspendLayout();
             SuspendLayout();
             // 
             // tabControl1
@@ -82,21 +96,19 @@
             tabControl1.Controls.Add(tabPage2);
             tabControl1.Dock = DockStyle.Fill;
             tabControl1.Location = new Point(0, 0);
-            tabControl1.Margin = new Padding(3, 4, 3, 4);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(1247, 697);
+            tabControl1.Size = new Size(1091, 523);
             tabControl1.TabIndex = 0;
             // 
             // tabPageTallTale
             // 
             tabPageTallTale.Controls.Add(panel2);
             tabPageTallTale.Controls.Add(panel1);
-            tabPageTallTale.Location = new Point(4, 29);
-            tabPageTallTale.Margin = new Padding(3, 4, 3, 4);
+            tabPageTallTale.Location = new Point(4, 24);
             tabPageTallTale.Name = "tabPageTallTale";
-            tabPageTallTale.Padding = new Padding(3, 4, 3, 4);
-            tabPageTallTale.Size = new Size(1239, 664);
+            tabPageTallTale.Padding = new Padding(3);
+            tabPageTallTale.Size = new Size(1083, 495);
             tabPageTallTale.TabIndex = 0;
             tabPageTallTale.Text = "Hvac TellTale";
             tabPageTallTale.UseVisualStyleBackColor = true;
@@ -105,10 +117,9 @@
             // 
             panel2.Controls.Add(tabControl2);
             panel2.Dock = DockStyle.Fill;
-            panel2.Location = new Point(3, 44);
-            panel2.Margin = new Padding(3, 4, 3, 4);
+            panel2.Location = new Point(3, 33);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1233, 616);
+            panel2.Size = new Size(1077, 459);
             panel2.TabIndex = 1;
             // 
             // tabControl2
@@ -118,19 +129,21 @@
             tabControl2.Controls.Add(tabPage6);
             tabControl2.Dock = DockStyle.Fill;
             tabControl2.Location = new Point(0, 0);
+            tabControl2.Margin = new Padding(3, 2, 3, 2);
             tabControl2.Name = "tabControl2";
             tabControl2.SelectedIndex = 0;
-            tabControl2.Size = new Size(1233, 616);
+            tabControl2.Size = new Size(1077, 459);
             tabControl2.TabIndex = 1;
             // 
             // tabPage1
             // 
             tabPage1.Controls.Add(panel6);
             tabPage1.Controls.Add(panel3);
-            tabPage1.Location = new Point(4, 29);
+            tabPage1.Location = new Point(4, 24);
+            tabPage1.Margin = new Padding(3, 2, 3, 2);
             tabPage1.Name = "tabPage1";
-            tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(1225, 583);
+            tabPage1.Padding = new Padding(3, 2, 3, 2);
+            tabPage1.Size = new Size(1069, 431);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Test";
             tabPage1.UseVisualStyleBackColor = true;
@@ -140,9 +153,10 @@
             panel6.Controls.Add(panel8);
             panel6.Controls.Add(panel7);
             panel6.Dock = DockStyle.Fill;
-            panel6.Location = new Point(178, 3);
+            panel6.Location = new Point(156, 2);
+            panel6.Margin = new Padding(3, 2, 3, 2);
             panel6.Name = "panel6";
-            panel6.Size = new Size(1044, 577);
+            panel6.Size = new Size(910, 427);
             panel6.TabIndex = 1;
             // 
             // panel8
@@ -150,8 +164,9 @@
             panel8.Controls.Add(tabControl3);
             panel8.Dock = DockStyle.Fill;
             panel8.Location = new Point(0, 0);
+            panel8.Margin = new Padding(3, 2, 3, 2);
             panel8.Name = "panel8";
-            panel8.Size = new Size(1044, 477);
+            panel8.Size = new Size(910, 352);
             panel8.TabIndex = 2;
             // 
             // tabControl3
@@ -160,18 +175,20 @@
             tabControl3.Controls.Add(tabPage5);
             tabControl3.Dock = DockStyle.Fill;
             tabControl3.Location = new Point(0, 0);
+            tabControl3.Margin = new Padding(3, 2, 3, 2);
             tabControl3.Name = "tabControl3";
             tabControl3.SelectedIndex = 0;
-            tabControl3.Size = new Size(1044, 477);
+            tabControl3.Size = new Size(910, 352);
             tabControl3.TabIndex = 1;
             // 
             // tabPage4
             // 
             tabPage4.Controls.Add(pictureBoxMain);
-            tabPage4.Location = new Point(4, 29);
+            tabPage4.Location = new Point(4, 24);
+            tabPage4.Margin = new Padding(3, 2, 3, 2);
             tabPage4.Name = "tabPage4";
-            tabPage4.Padding = new Padding(3);
-            tabPage4.Size = new Size(1036, 444);
+            tabPage4.Padding = new Padding(3, 2, 3, 2);
+            tabPage4.Size = new Size(902, 324);
             tabPage4.TabIndex = 0;
             tabPage4.Text = "Image";
             tabPage4.UseVisualStyleBackColor = true;
@@ -179,10 +196,9 @@
             // pictureBoxMain
             // 
             pictureBoxMain.Dock = DockStyle.Fill;
-            pictureBoxMain.Location = new Point(3, 3);
-            pictureBoxMain.Margin = new Padding(3, 4, 3, 4);
+            pictureBoxMain.Location = new Point(3, 2);
             pictureBoxMain.Name = "pictureBoxMain";
-            pictureBoxMain.Size = new Size(1030, 438);
+            pictureBoxMain.Size = new Size(896, 320);
             pictureBoxMain.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBoxMain.TabIndex = 0;
             pictureBoxMain.TabStop = false;
@@ -190,10 +206,11 @@
             // tabPage5
             // 
             tabPage5.Controls.Add(dataGridViewReport);
-            tabPage5.Location = new Point(4, 29);
+            tabPage5.Location = new Point(4, 24);
+            tabPage5.Margin = new Padding(3, 2, 3, 2);
             tabPage5.Name = "tabPage5";
-            tabPage5.Padding = new Padding(3);
-            tabPage5.Size = new Size(1036, 444);
+            tabPage5.Padding = new Padding(3, 2, 3, 2);
+            tabPage5.Size = new Size(902, 324);
             tabPage5.TabIndex = 1;
             tabPage5.Text = "Report";
             tabPage5.UseVisualStyleBackColor = true;
@@ -202,11 +219,12 @@
             // 
             dataGridViewReport.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewReport.Dock = DockStyle.Fill;
-            dataGridViewReport.Location = new Point(3, 3);
+            dataGridViewReport.Location = new Point(3, 2);
+            dataGridViewReport.Margin = new Padding(3, 2, 3, 2);
             dataGridViewReport.Name = "dataGridViewReport";
             dataGridViewReport.RowHeadersVisible = false;
             dataGridViewReport.RowHeadersWidth = 51;
-            dataGridViewReport.Size = new Size(1030, 438);
+            dataGridViewReport.Size = new Size(896, 320);
             dataGridViewReport.TabIndex = 1;
             // 
             // panel7
@@ -214,9 +232,10 @@
             panel7.Controls.Add(labelStatus);
             panel7.Controls.Add(panel9);
             panel7.Dock = DockStyle.Bottom;
-            panel7.Location = new Point(0, 477);
+            panel7.Location = new Point(0, 352);
+            panel7.Margin = new Padding(3, 2, 3, 2);
             panel7.Name = "panel7";
-            panel7.Size = new Size(1044, 100);
+            panel7.Size = new Size(910, 75);
             panel7.TabIndex = 1;
             // 
             // labelStatus
@@ -225,7 +244,7 @@
             labelStatus.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
             labelStatus.Location = new Point(0, 0);
             labelStatus.Name = "labelStatus";
-            labelStatus.Size = new Size(1044, 61);
+            labelStatus.Size = new Size(910, 46);
             labelStatus.TabIndex = 1;
             labelStatus.TextAlign = ContentAlignment.MiddleCenter;
             // 
@@ -233,9 +252,10 @@
             // 
             panel9.Controls.Add(labelTime);
             panel9.Dock = DockStyle.Bottom;
-            panel9.Location = new Point(0, 61);
+            panel9.Location = new Point(0, 46);
+            panel9.Margin = new Padding(3, 2, 3, 2);
             panel9.Name = "panel9";
-            panel9.Size = new Size(1044, 39);
+            panel9.Size = new Size(910, 29);
             panel9.TabIndex = 0;
             // 
             // labelTime
@@ -244,7 +264,7 @@
             labelTime.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             labelTime.Location = new Point(0, 0);
             labelTime.Name = "labelTime";
-            labelTime.Size = new Size(1044, 39);
+            labelTime.Size = new Size(910, 29);
             labelTime.TabIndex = 0;
             labelTime.TextAlign = ContentAlignment.MiddleCenter;
             // 
@@ -252,18 +272,18 @@
             // 
             panel3.Controls.Add(listViewImage);
             panel3.Dock = DockStyle.Left;
-            panel3.Location = new Point(3, 3);
+            panel3.Location = new Point(3, 2);
+            panel3.Margin = new Padding(3, 2, 3, 2);
             panel3.Name = "panel3";
-            panel3.Size = new Size(175, 577);
+            panel3.Size = new Size(153, 427);
             panel3.TabIndex = 0;
             // 
             // listViewImage
             // 
             listViewImage.Dock = DockStyle.Fill;
             listViewImage.Location = new Point(0, 0);
-            listViewImage.Margin = new Padding(3, 4, 3, 4);
             listViewImage.Name = "listViewImage";
-            listViewImage.Size = new Size(175, 577);
+            listViewImage.Size = new Size(153, 427);
             listViewImage.TabIndex = 0;
             listViewImage.UseCompatibleStateImageBehavior = false;
             listViewImage.MouseClick += listViewImage_MouseClick;
@@ -272,10 +292,11 @@
             // 
             tabPage3.Controls.Add(panel5);
             tabPage3.Controls.Add(panel4);
-            tabPage3.Location = new Point(4, 29);
+            tabPage3.Location = new Point(4, 24);
+            tabPage3.Margin = new Padding(3, 2, 3, 2);
             tabPage3.Name = "tabPage3";
-            tabPage3.Padding = new Padding(3);
-            tabPage3.Size = new Size(1225, 583);
+            tabPage3.Padding = new Padding(3, 2, 3, 2);
+            tabPage3.Size = new Size(1069, 431);
             tabPage3.TabIndex = 1;
             tabPage3.Text = "Config";
             tabPage3.UseVisualStyleBackColor = true;
@@ -283,27 +304,30 @@
             // panel5
             // 
             panel5.Dock = DockStyle.Fill;
-            panel5.Location = new Point(3, 63);
+            panel5.Location = new Point(3, 47);
+            panel5.Margin = new Padding(3, 2, 3, 2);
             panel5.Name = "panel5";
-            panel5.Size = new Size(1219, 517);
+            panel5.Size = new Size(1063, 382);
             panel5.TabIndex = 2;
             // 
             // panel4
             // 
             panel4.Dock = DockStyle.Top;
-            panel4.Location = new Point(3, 3);
+            panel4.Location = new Point(3, 2);
+            panel4.Margin = new Padding(3, 2, 3, 2);
             panel4.Name = "panel4";
-            panel4.Size = new Size(1219, 60);
+            panel4.Size = new Size(1063, 45);
             panel4.TabIndex = 1;
             // 
             // tabPage6
             // 
             tabPage6.Controls.Add(listBoxLog);
             tabPage6.Controls.Add(buttonTrain);
-            tabPage6.Location = new Point(4, 29);
+            tabPage6.Location = new Point(4, 24);
+            tabPage6.Margin = new Padding(3, 2, 3, 2);
             tabPage6.Name = "tabPage6";
-            tabPage6.Padding = new Padding(3);
-            tabPage6.Size = new Size(1225, 583);
+            tabPage6.Padding = new Padding(3, 2, 3, 2);
+            tabPage6.Size = new Size(1069, 431);
             tabPage6.TabIndex = 2;
             tabPage6.Text = "Train";
             tabPage6.UseVisualStyleBackColor = true;
@@ -312,18 +336,17 @@
             // 
             listBoxLog.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             listBoxLog.FormattingEnabled = true;
-            listBoxLog.Location = new Point(15, 55);
-            listBoxLog.Margin = new Padding(3, 4, 3, 4);
+            listBoxLog.ItemHeight = 15;
+            listBoxLog.Location = new Point(13, 41);
             listBoxLog.Name = "listBoxLog";
-            listBoxLog.Size = new Size(1204, 524);
+            listBoxLog.Size = new Size(1052, 379);
             listBoxLog.TabIndex = 2;
             // 
             // buttonTrain
             // 
-            buttonTrain.Location = new Point(15, 16);
-            buttonTrain.Margin = new Padding(3, 4, 3, 4);
+            buttonTrain.Location = new Point(13, 12);
             buttonTrain.Name = "buttonTrain";
-            buttonTrain.Size = new Size(86, 31);
+            buttonTrain.Size = new Size(75, 23);
             buttonTrain.TabIndex = 1;
             buttonTrain.Text = "Train";
             buttonTrain.UseVisualStyleBackColor = true;
@@ -334,18 +357,17 @@
             panel1.Controls.Add(labelDesc);
             panel1.Controls.Add(buttonTest);
             panel1.Dock = DockStyle.Top;
-            panel1.Location = new Point(3, 4);
-            panel1.Margin = new Padding(3, 4, 3, 4);
+            panel1.Location = new Point(3, 3);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1233, 40);
+            panel1.Size = new Size(1077, 30);
             panel1.TabIndex = 0;
             // 
             // labelDesc
             // 
             labelDesc.Dock = DockStyle.Fill;
-            labelDesc.Location = new Point(171, 0);
+            labelDesc.Location = new Point(150, 0);
             labelDesc.Name = "labelDesc";
-            labelDesc.Size = new Size(1062, 40);
+            labelDesc.Size = new Size(927, 30);
             labelDesc.TabIndex = 1;
             labelDesc.Text = "label description";
             labelDesc.TextAlign = ContentAlignment.MiddleCenter;
@@ -358,9 +380,8 @@
             buttonTest.FlatStyle = FlatStyle.Flat;
             buttonTest.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             buttonTest.Location = new Point(0, 0);
-            buttonTest.Margin = new Padding(3, 4, 3, 4);
             buttonTest.Name = "buttonTest";
-            buttonTest.Size = new Size(171, 40);
+            buttonTest.Size = new Size(150, 30);
             buttonTest.TabIndex = 0;
             buttonTest.Text = "Test";
             buttonTest.UseVisualStyleBackColor = false;
@@ -368,22 +389,122 @@
             // 
             // tabPage2
             // 
-            tabPage2.Location = new Point(4, 29);
-            tabPage2.Margin = new Padding(3, 4, 3, 4);
+            tabPage2.Controls.Add(panelMain);
+            tabPage2.Controls.Add(panelButtonHide);
+            tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
-            tabPage2.Padding = new Padding(3, 4, 3, 4);
-            tabPage2.Size = new Size(1239, 664);
+            tabPage2.Padding = new Padding(3);
+            tabPage2.Size = new Size(1083, 495);
             tabPage2.TabIndex = 1;
-            tabPage2.Text = "Train";
+            tabPage2.Text = "Train a model";
             tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // panelMain
+            // 
+            panelMain.Controls.Add(trainUserControl1);
+            panelMain.Dock = DockStyle.Fill;
+            panelMain.Location = new Point(123, 3);
+            panelMain.Name = "panelMain";
+            panelMain.Size = new Size(957, 489);
+            panelMain.TabIndex = 2;
+            // 
+            // trainUserControl1
+            // 
+            trainUserControl1.Dock = DockStyle.Fill;
+            trainUserControl1.Location = new Point(0, 0);
+            trainUserControl1.Name = "trainUserControl1";
+            trainUserControl1.Size = new Size(957, 489);
+            trainUserControl1.TabIndex = 0;
+            // 
+            // panelButtonHide
+            // 
+            panelButtonHide.Controls.Add(buttonHide);
+            panelButtonHide.Controls.Add(panelbutton);
+            panelButtonHide.Dock = DockStyle.Left;
+            panelButtonHide.Location = new Point(3, 3);
+            panelButtonHide.Name = "panelButtonHide";
+            panelButtonHide.Size = new Size(120, 489);
+            panelButtonHide.TabIndex = 1;
+            // 
+            // buttonHide
+            // 
+            buttonHide.Dock = DockStyle.Top;
+            buttonHide.FlatAppearance.BorderSize = 0;
+            buttonHide.FlatStyle = FlatStyle.Flat;
+            buttonHide.Location = new Point(100, 0);
+            buttonHide.Name = "buttonHide";
+            buttonHide.Size = new Size(20, 28);
+            buttonHide.TabIndex = 1;
+            buttonHide.UseVisualStyleBackColor = true;
+            buttonHide.Click += buttonHide_Click;
+            // 
+            // panelbutton
+            // 
+            panelbutton.Controls.Add(buttonSave);
+            panelbutton.Controls.Add(buttonCancel);
+            panelbutton.Controls.Add(buttonLoad);
+            panelbutton.Controls.Add(buttonNewproject);
+            panelbutton.Dock = DockStyle.Left;
+            panelbutton.Location = new Point(0, 0);
+            panelbutton.Margin = new Padding(3, 2, 3, 2);
+            panelbutton.Name = "panelbutton";
+            panelbutton.Size = new Size(100, 489);
+            panelbutton.TabIndex = 0;
+            // 
+            // buttonSave
+            // 
+            buttonSave.Dock = DockStyle.Top;
+            buttonSave.Location = new Point(0, 132);
+            buttonSave.Margin = new Padding(3, 2, 3, 2);
+            buttonSave.Name = "buttonSave";
+            buttonSave.Size = new Size(100, 44);
+            buttonSave.TabIndex = 4;
+            buttonSave.Text = "Save";
+            buttonSave.UseVisualStyleBackColor = true;
+            buttonSave.Click += buttonSave_Click;
+            // 
+            // buttonCancel
+            // 
+            buttonCancel.Dock = DockStyle.Top;
+            buttonCancel.Location = new Point(0, 88);
+            buttonCancel.Margin = new Padding(3, 2, 3, 2);
+            buttonCancel.Name = "buttonCancel";
+            buttonCancel.Size = new Size(100, 44);
+            buttonCancel.TabIndex = 3;
+            buttonCancel.Text = "Cancel";
+            buttonCancel.UseVisualStyleBackColor = true;
+            buttonCancel.Click += buttonCancel_Click;
+            // 
+            // buttonLoad
+            // 
+            buttonLoad.Dock = DockStyle.Top;
+            buttonLoad.Location = new Point(0, 44);
+            buttonLoad.Margin = new Padding(3, 2, 3, 2);
+            buttonLoad.Name = "buttonLoad";
+            buttonLoad.Size = new Size(100, 44);
+            buttonLoad.TabIndex = 2;
+            buttonLoad.Text = "Load";
+            buttonLoad.UseVisualStyleBackColor = true;
+            buttonLoad.Click += buttonLoad_Click;
+            // 
+            // buttonNewproject
+            // 
+            buttonNewproject.Dock = DockStyle.Top;
+            buttonNewproject.Location = new Point(0, 0);
+            buttonNewproject.Margin = new Padding(3, 2, 3, 2);
+            buttonNewproject.Name = "buttonNewproject";
+            buttonNewproject.Size = new Size(100, 44);
+            buttonNewproject.TabIndex = 1;
+            buttonNewproject.Text = "New";
+            buttonNewproject.UseVisualStyleBackColor = true;
+            buttonNewproject.Click += buttonNewproject_Click;
             // 
             // VIsionSystem
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1247, 697);
+            ClientSize = new Size(1091, 523);
             Controls.Add(tabControl1);
-            Margin = new Padding(3, 4, 3, 4);
             Name = "VIsionSystem";
             Text = "Form1";
             tabControl1.ResumeLayout(false);
@@ -404,6 +525,10 @@
             tabPage3.ResumeLayout(false);
             tabPage6.ResumeLayout(false);
             panel1.ResumeLayout(false);
+            tabPage2.ResumeLayout(false);
+            panelMain.ResumeLayout(false);
+            panelButtonHide.ResumeLayout(false);
+            panelbutton.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -438,5 +563,15 @@
         private TabPage tabPage6;
         private Button buttonTrain;
         private ListBox listBoxLog;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private Panel panelbutton;
+        private Button buttonNewproject;
+        private Button buttonLoad;
+        private Button buttonCancel;
+        private Button buttonSave;
+        private Panel panelButtonHide;
+        private Button buttonHide;
+        private Panel panelMain;
+        private TrainForm.TrainUserControl trainUserControl1;
     }
 }

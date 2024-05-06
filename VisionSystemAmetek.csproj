@@ -12,5 +12,6 @@
   <ItemGroup>
     <ProjectReference Include="..\EmguClass\EmguClass.csproj" />
     <ProjectReference Include="..\MLClass\MLClass.csproj" />
+    <ProjectReference Include="..\VisionSystemConfigFile\VisionSystemConfigFile.csproj" />
   </ItemGroup>
 </Project>
