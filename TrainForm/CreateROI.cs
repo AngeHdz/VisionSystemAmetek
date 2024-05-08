@@ -54,6 +54,7 @@ namespace VisionSystemAmetek.TrainForm
 
         private void pictureBox_MouseMove(object sender, MouseEventArgs e)
         {
+
             if (MouseDown)
             {
                 int with = Math.Max(StartROI.X, e.X) - Math.Min(StartROI.X, e.X);
