@@ -330,11 +330,16 @@ namespace VisionSystemAmetek.TrainForm
         private void listBoxRois_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             var d = Project.RoiClasses.Where(x => x.Name == listBoxRois.Text).First();
-            if (d != null) 
+            if (d != null)
             {
                 ProcessImage = VisionClass.DrawRoi(ProcessImage, d.Rectangle, d.Name);
                 pictureBoxMain.Image = ProcessImage;
             }
+        }
+
+        private void buttonAddModel_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

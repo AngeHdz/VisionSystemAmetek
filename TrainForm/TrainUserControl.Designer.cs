@@ -55,6 +55,7 @@
             label1 = new Label();
             comboBoxCaptureType = new ComboBox();
             pictureBoxMain = new PictureBox();
+            buttonAddModel = new Button();
             panel2.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             groupBoxProcessImage.SuspendLayout();
@@ -285,6 +286,7 @@
             // 
             // groupBoxModels
             // 
+            groupBoxModels.Controls.Add(buttonAddModel);
             groupBoxModels.Controls.Add(listBoxModels);
             groupBoxModels.Dock = DockStyle.Fill;
             groupBoxModels.Location = new Point(3, 267);
@@ -366,6 +368,17 @@
             pictureBoxMain.TabIndex = 2;
             pictureBoxMain.TabStop = false;
             // 
+            // buttonAddModel
+            // 
+            buttonAddModel.Dock = DockStyle.Top;
+            buttonAddModel.Location = new Point(135, 19);
+            buttonAddModel.Name = "buttonAddModel";
+            buttonAddModel.Size = new Size(67, 23);
+            buttonAddModel.TabIndex = 4;
+            buttonAddModel.Text = "Add";
+            buttonAddModel.UseVisualStyleBackColor = true;
+            buttonAddModel.Click += buttonAddModel_Click;
+            // 
             // TrainUserControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -419,5 +432,6 @@
         private Button buttonAddProcessImage;
         private Button buttonDeleteProcessImage;
         private Button buttonProcess;
+        private Button buttonAddModel;
     }
 }
