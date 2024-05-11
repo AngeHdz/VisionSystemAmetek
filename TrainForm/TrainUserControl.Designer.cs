@@ -47,15 +47,15 @@
             buttonDeleteCategori = new Button();
             buttonAddCategori = new Button();
             listBoxCat = new ListBox();
-            groupBoxModels = new GroupBox();
-            listBoxModels = new ListBox();
+            groupBoxTest = new GroupBox();
+            listBoxTestSteps = new ListBox();
             groupBoxCapture = new GroupBox();
             buttonReload = new Button();
             buttonLoadCapture = new Button();
             label1 = new Label();
             comboBoxCaptureType = new ComboBox();
             pictureBoxMain = new PictureBox();
-            buttonAddModel = new Button();
+            buttonAddTestSteps = new Button();
             panel2.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             groupBoxProcessImage.SuspendLayout();
@@ -65,7 +65,7 @@
             panel4.SuspendLayout();
             tabPage2.SuspendLayout();
             panel5.SuspendLayout();
-            groupBoxModels.SuspendLayout();
+            groupBoxTest.SuspendLayout();
             groupBoxCapture.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxMain).BeginInit();
             SuspendLayout();
@@ -86,7 +86,7 @@
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.Controls.Add(groupBoxProcessImage, 0, 0);
             tableLayoutPanel1.Controls.Add(tabControl1, 0, 1);
-            tableLayoutPanel1.Controls.Add(groupBoxModels, 0, 2);
+            tableLayoutPanel1.Controls.Add(groupBoxTest, 0, 2);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 92);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -284,27 +284,27 @@
             listBoxCat.TabIndex = 1;
             listBoxCat.MouseDoubleClick += listBoxCat_DoubleClick;
             // 
-            // groupBoxModels
+            // groupBoxTest
             // 
-            groupBoxModels.Controls.Add(buttonAddModel);
-            groupBoxModels.Controls.Add(listBoxModels);
-            groupBoxModels.Dock = DockStyle.Fill;
-            groupBoxModels.Location = new Point(3, 267);
-            groupBoxModels.Name = "groupBoxModels";
-            groupBoxModels.Size = new Size(205, 127);
-            groupBoxModels.TabIndex = 5;
-            groupBoxModels.TabStop = false;
-            groupBoxModels.Text = "Models";
+            groupBoxTest.Controls.Add(buttonAddTestSteps);
+            groupBoxTest.Controls.Add(listBoxTestSteps);
+            groupBoxTest.Dock = DockStyle.Fill;
+            groupBoxTest.Location = new Point(3, 267);
+            groupBoxTest.Name = "groupBoxTest";
+            groupBoxTest.Size = new Size(205, 127);
+            groupBoxTest.TabIndex = 5;
+            groupBoxTest.TabStop = false;
+            groupBoxTest.Text = "TestSteps";
             // 
-            // listBoxModels
+            // listBoxTestSteps
             // 
-            listBoxModels.Dock = DockStyle.Left;
-            listBoxModels.FormattingEnabled = true;
-            listBoxModels.ItemHeight = 15;
-            listBoxModels.Location = new Point(3, 19);
-            listBoxModels.Name = "listBoxModels";
-            listBoxModels.Size = new Size(132, 105);
-            listBoxModels.TabIndex = 0;
+            listBoxTestSteps.Dock = DockStyle.Left;
+            listBoxTestSteps.FormattingEnabled = true;
+            listBoxTestSteps.ItemHeight = 15;
+            listBoxTestSteps.Location = new Point(3, 19);
+            listBoxTestSteps.Name = "listBoxTestSteps";
+            listBoxTestSteps.Size = new Size(132, 105);
+            listBoxTestSteps.TabIndex = 0;
             // 
             // groupBoxCapture
             // 
@@ -368,16 +368,16 @@
             pictureBoxMain.TabIndex = 2;
             pictureBoxMain.TabStop = false;
             // 
-            // buttonAddModel
+            // buttonAddTestSteps
             // 
-            buttonAddModel.Dock = DockStyle.Top;
-            buttonAddModel.Location = new Point(135, 19);
-            buttonAddModel.Name = "buttonAddModel";
-            buttonAddModel.Size = new Size(67, 23);
-            buttonAddModel.TabIndex = 4;
-            buttonAddModel.Text = "Add";
-            buttonAddModel.UseVisualStyleBackColor = true;
-            buttonAddModel.Click += buttonAddModel_Click;
+            buttonAddTestSteps.Dock = DockStyle.Top;
+            buttonAddTestSteps.Location = new Point(135, 19);
+            buttonAddTestSteps.Name = "buttonAddTestSteps";
+            buttonAddTestSteps.Size = new Size(67, 23);
+            buttonAddTestSteps.TabIndex = 4;
+            buttonAddTestSteps.Text = "Add";
+            buttonAddTestSteps.UseVisualStyleBackColor = true;
+            buttonAddTestSteps.Click += buttonAddTestSteps_Click;
             // 
             // TrainUserControl
             // 
@@ -396,7 +396,7 @@
             panel4.ResumeLayout(false);
             tabPage2.ResumeLayout(false);
             panel5.ResumeLayout(false);
-            groupBoxModels.ResumeLayout(false);
+            groupBoxTest.ResumeLayout(false);
             groupBoxCapture.ResumeLayout(false);
             groupBoxCapture.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxMain).EndInit();
@@ -427,11 +427,11 @@
         private Button buttonDeleteCategori;
         private Button buttonAddCategori;
         private ListBox listBoxCat;
-        private GroupBox groupBoxModels;
-        private ListBox listBoxModels;
+        private GroupBox groupBoxTest;
+        private ListBox listBoxTestSteps;
         private Button buttonAddProcessImage;
         private Button buttonDeleteProcessImage;
         private Button buttonProcess;
-        private Button buttonAddModel;
+        private Button buttonAddTestSteps;
     }
 }

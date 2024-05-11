@@ -321,8 +321,8 @@
             // 
             // tabPage6
             // 
-            tabPage6.Controls.Add(listBoxLog);
             tabPage6.Controls.Add(buttonTrain);
+            tabPage6.Controls.Add(listBoxLog);
             tabPage6.Location = new Point(4, 24);
             tabPage6.Margin = new Padding(3, 2, 3, 2);
             tabPage6.Name = "tabPage6";

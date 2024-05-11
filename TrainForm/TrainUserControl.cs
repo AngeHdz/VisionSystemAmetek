@@ -21,6 +21,7 @@ namespace VisionSystemAmetek.TrainForm
         #region Main
 
         Bitmap ProcessImage;
+        Bitmap JustProcess;
         Bitmap OriginalImage;
         private ProjectConfig Project;
 
@@ -321,6 +322,7 @@ namespace VisionSystemAmetek.TrainForm
                 {
                     case ProcessImageTypes.Led_Ambar:
                         ProcessImage = VisionClass.Ambar_DarkBackground(ProcessImage);
+                        JustProcess = ProcessImage;
                         pictureBoxMain.Image = ProcessImage;
                         break;
                 }
@@ -341,5 +343,19 @@ namespace VisionSystemAmetek.TrainForm
         {
 
         }
+
+        #region TestSteps
+        private void buttonAddTestSteps_Click(object sender, EventArgs e)
+        {
+            using (StepTestWindow stepwidnows = new StepTestWindow(Project,JustProcess))
+            {
+                stepwidnows.ShowDialog();
+                if (stepwidnows.success) 
+                {
+                }
+            }
+        }
+
+        #endregion
     }
 }
