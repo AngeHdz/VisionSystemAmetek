@@ -36,15 +36,26 @@
             label2 = new Label();
             comboBoxcat = new ComboBox();
             panel1 = new Panel();
+            panel5 = new Panel();
+            groupBox1 = new GroupBox();
+            buttonFindFile = new Button();
+            textBoxTemplate = new TextBox();
+            labelFileName = new Label();
+            panel4 = new Panel();
             buttonTrain = new Button();
             buttonCancel = new Button();
+            panel3 = new Panel();
             label3 = new Label();
             comboBoxType = new ComboBox();
             panel2 = new Panel();
             tableLayoutPanel1 = new TableLayoutPanel();
             pictureBoxMain = new PictureBox();
-            textBoxLog = new TextBox();
+            listBoxLog = new ListBox();
             panel1.SuspendLayout();
+            panel5.SuspendLayout();
+            groupBox1.SuspendLayout();
+            panel4.SuspendLayout();
+            panel3.SuspendLayout();
             panel2.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxMain).BeginInit();
@@ -52,7 +63,7 @@
             // 
             // textBoxName
             // 
-            textBoxName.Location = new Point(85, 12);
+            textBoxName.Location = new Point(88, 9);
             textBoxName.Name = "textBoxName";
             textBoxName.Size = new Size(265, 23);
             textBoxName.TabIndex = 0;
@@ -60,7 +71,7 @@
             // labelStepName
             // 
             labelStepName.AutoSize = true;
-            labelStepName.Location = new Point(8, 20);
+            labelStepName.Location = new Point(11, 17);
             labelStepName.Name = "labelStepName";
             labelStepName.Size = new Size(68, 15);
             labelStepName.TabIndex = 1;
@@ -74,7 +85,7 @@
             buttonSave.FlatStyle = FlatStyle.Flat;
             buttonSave.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             buttonSave.ForeColor = Color.White;
-            buttonSave.Location = new Point(843, 93);
+            buttonSave.Location = new Point(20, 93);
             buttonSave.Name = "buttonSave";
             buttonSave.Size = new Size(79, 32);
             buttonSave.TabIndex = 2;
@@ -85,7 +96,7 @@
             // comboBoxRoi
             // 
             comboBoxRoi.FormattingEnabled = true;
-            comboBoxRoi.Location = new Point(85, 41);
+            comboBoxRoi.Location = new Point(88, 38);
             comboBoxRoi.Name = "comboBoxRoi";
             comboBoxRoi.Size = new Size(265, 23);
             comboBoxRoi.TabIndex = 3;
@@ -94,7 +105,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(49, 49);
+            label1.Location = new Point(52, 46);
             label1.Name = "label1";
             label1.Size = new Size(27, 15);
             label1.TabIndex = 4;
@@ -103,7 +114,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(21, 78);
+            label2.Location = new Point(24, 75);
             label2.Name = "label2";
             label2.Size = new Size(58, 15);
             label2.TabIndex = 5;
@@ -112,7 +123,7 @@
             // comboBoxcat
             // 
             comboBoxcat.FormattingEnabled = true;
-            comboBoxcat.Location = new Point(85, 70);
+            comboBoxcat.Location = new Point(88, 67);
             comboBoxcat.Name = "comboBoxcat";
             comboBoxcat.Size = new Size(265, 23);
             comboBoxcat.TabIndex = 6;
@@ -120,22 +131,74 @@
             // 
             // panel1
             // 
-            panel1.Controls.Add(buttonTrain);
-            panel1.Controls.Add(buttonCancel);
-            panel1.Controls.Add(label3);
-            panel1.Controls.Add(comboBoxType);
-            panel1.Controls.Add(textBoxName);
-            panel1.Controls.Add(comboBoxcat);
-            panel1.Controls.Add(labelStepName);
-            panel1.Controls.Add(label2);
-            panel1.Controls.Add(buttonSave);
-            panel1.Controls.Add(label1);
-            panel1.Controls.Add(comboBoxRoi);
+            panel1.Controls.Add(panel5);
+            panel1.Controls.Add(panel4);
+            panel1.Controls.Add(panel3);
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
             panel1.Size = new Size(934, 131);
             panel1.TabIndex = 7;
+            // 
+            // panel5
+            // 
+            panel5.Controls.Add(groupBox1);
+            panel5.Dock = DockStyle.Fill;
+            panel5.Location = new Point(368, 0);
+            panel5.Name = "panel5";
+            panel5.Size = new Size(455, 131);
+            panel5.TabIndex = 13;
+            // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(buttonFindFile);
+            groupBox1.Controls.Add(textBoxTemplate);
+            groupBox1.Controls.Add(labelFileName);
+            groupBox1.Dock = DockStyle.Left;
+            groupBox1.Location = new Point(0, 0);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(335, 131);
+            groupBox1.TabIndex = 0;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Template";
+            // 
+            // buttonFindFile
+            // 
+            buttonFindFile.Location = new Point(58, 49);
+            buttonFindFile.Name = "buttonFindFile";
+            buttonFindFile.Size = new Size(76, 23);
+            buttonFindFile.TabIndex = 2;
+            buttonFindFile.Text = "Find";
+            buttonFindFile.UseVisualStyleBackColor = true;
+            buttonFindFile.Click += buttonFindFile_Click;
+            // 
+            // textBoxTemplate
+            // 
+            textBoxTemplate.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            textBoxTemplate.Location = new Point(58, 17);
+            textBoxTemplate.Name = "textBoxTemplate";
+            textBoxTemplate.Size = new Size(271, 23);
+            textBoxTemplate.TabIndex = 1;
+            // 
+            // labelFileName
+            // 
+            labelFileName.AutoSize = true;
+            labelFileName.Location = new Point(14, 20);
+            labelFileName.Name = "labelFileName";
+            labelFileName.Size = new Size(28, 15);
+            labelFileName.TabIndex = 0;
+            labelFileName.Text = "File:";
+            // 
+            // panel4
+            // 
+            panel4.Controls.Add(buttonTrain);
+            panel4.Controls.Add(buttonSave);
+            panel4.Controls.Add(buttonCancel);
+            panel4.Dock = DockStyle.Right;
+            panel4.Location = new Point(823, 0);
+            panel4.Name = "panel4";
+            panel4.Size = new Size(111, 131);
+            panel4.TabIndex = 12;
             // 
             // buttonTrain
             // 
@@ -145,7 +208,7 @@
             buttonTrain.FlatStyle = FlatStyle.Flat;
             buttonTrain.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             buttonTrain.ForeColor = Color.White;
-            buttonTrain.Location = new Point(843, 9);
+            buttonTrain.Location = new Point(20, 9);
             buttonTrain.Name = "buttonTrain";
             buttonTrain.Size = new Size(79, 32);
             buttonTrain.TabIndex = 10;
@@ -161,7 +224,7 @@
             buttonCancel.FlatStyle = FlatStyle.Flat;
             buttonCancel.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             buttonCancel.ForeColor = Color.White;
-            buttonCancel.Location = new Point(843, 49);
+            buttonCancel.Location = new Point(20, 49);
             buttonCancel.Name = "buttonCancel";
             buttonCancel.Size = new Size(79, 32);
             buttonCancel.TabIndex = 9;
@@ -169,10 +232,26 @@
             buttonCancel.UseVisualStyleBackColor = false;
             buttonCancel.Click += buttonCancel_Click;
             // 
+            // panel3
+            // 
+            panel3.Controls.Add(textBoxName);
+            panel3.Controls.Add(comboBoxRoi);
+            panel3.Controls.Add(label1);
+            panel3.Controls.Add(label3);
+            panel3.Controls.Add(label2);
+            panel3.Controls.Add(comboBoxType);
+            panel3.Controls.Add(labelStepName);
+            panel3.Controls.Add(comboBoxcat);
+            panel3.Dock = DockStyle.Left;
+            panel3.Location = new Point(0, 0);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(368, 131);
+            panel3.TabIndex = 11;
+            // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(21, 107);
+            label3.Location = new Point(24, 104);
             label3.Name = "label3";
             label3.Size = new Size(54, 15);
             label3.TabIndex = 8;
@@ -181,7 +260,7 @@
             // comboBoxType
             // 
             comboBoxType.FormattingEnabled = true;
-            comboBoxType.Location = new Point(85, 99);
+            comboBoxType.Location = new Point(88, 96);
             comboBoxType.Name = "comboBoxType";
             comboBoxType.Size = new Size(265, 23);
             comboBoxType.TabIndex = 7;
@@ -202,7 +281,7 @@
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 75.64354F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 24.35646F));
             tableLayoutPanel1.Controls.Add(pictureBoxMain, 0, 0);
-            tableLayoutPanel1.Controls.Add(textBoxLog, 1, 0);
+            tableLayoutPanel1.Controls.Add(listBoxLog, 1, 0);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -221,14 +300,15 @@
             pictureBoxMain.TabIndex = 0;
             pictureBoxMain.TabStop = false;
             // 
-            // textBoxLog
+            // listBoxLog
             // 
-            textBoxLog.Dock = DockStyle.Fill;
-            textBoxLog.Location = new Point(709, 3);
-            textBoxLog.Multiline = true;
-            textBoxLog.Name = "textBoxLog";
-            textBoxLog.Size = new Size(222, 474);
-            textBoxLog.TabIndex = 1;
+            listBoxLog.Dock = DockStyle.Fill;
+            listBoxLog.FormattingEnabled = true;
+            listBoxLog.ItemHeight = 15;
+            listBoxLog.Location = new Point(709, 3);
+            listBoxLog.Name = "listBoxLog";
+            listBoxLog.Size = new Size(222, 474);
+            listBoxLog.TabIndex = 1;
             // 
             // StepTestWindow
             // 
@@ -242,10 +322,14 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "StepTestWindow";
             panel1.ResumeLayout(false);
-            panel1.PerformLayout();
+            panel5.ResumeLayout(false);
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
+            panel4.ResumeLayout(false);
+            panel3.ResumeLayout(false);
+            panel3.PerformLayout();
             panel2.ResumeLayout(false);
             tableLayoutPanel1.ResumeLayout(false);
-            tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxMain).EndInit();
             ResumeLayout(false);
         }
@@ -266,7 +350,14 @@
         private Panel panel2;
         private PictureBox pictureBoxMain;
         private TableLayoutPanel tableLayoutPanel1;
-        private TextBox textBoxLog;
         private Button buttonTrain;
+        private Panel panel5;
+        private Panel panel4;
+        private Panel panel3;
+        private GroupBox groupBox1;
+        private Label labelFileName;
+        private TextBox textBoxTemplate;
+        private Button buttonFindFile;
+        private ListBox listBoxLog;
     }
 }

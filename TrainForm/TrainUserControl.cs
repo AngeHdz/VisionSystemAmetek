@@ -67,6 +67,7 @@ namespace VisionSystemAmetek.TrainForm
             reloadListRoi();
             reloadListCat();
             reloadListProcess();
+            reloadListSteps();
         }
 
         protected void reloadListProcess()
@@ -77,6 +78,11 @@ namespace VisionSystemAmetek.TrainForm
         protected void reloadListRoi()
         {
             listBoxRois.DataSource = Project.RoiClasses.Select(x => x.Name).ToList();
+        }
+
+        protected void reloadListSteps() 
+        {
+            listBoxTestSteps.DataSource = Project.TestSteps.Select(x => x.TestStepName).ToList();
         }
 
         protected void reloadListCat()
@@ -350,10 +356,12 @@ namespace VisionSystemAmetek.TrainForm
             using (StepTestWindow stepwidnows = new StepTestWindow(Project,JustProcess))
             {
                 stepwidnows.ShowDialog();
-                if (stepwidnows.success) 
+                if (stepwidnows._success) 
                 {
+                    Project.TestSteps.Add(stepwidnows.Step);
                 }
             }
+            reloadListSteps();
         }
 
         #endregion
