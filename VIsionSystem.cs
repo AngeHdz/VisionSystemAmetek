@@ -8,6 +8,7 @@ using NumSharp.Extensions;
 using VisionSystemConfigFile;
 using VisionSystemAmetek.Train.Forms;
 using Emgu.CV.Ocl;
+using VisionSystemAmetek.Runtime;
 
 namespace VisionSystemAmetek
 {
@@ -25,7 +26,12 @@ namespace VisionSystemAmetek
         private ImageList imagelist;
         private List<Bitmap> images = new List<Bitmap>();
         private ProjectConfig Project;
+        private ProjectConfig _CurrentTestProject;
+        private string _CurrentModel = string.Empty;
         private bool PanelButton = false;
+        Engine _engine = new Engine();
+
+
         #endregion
 
         #region Constructor
@@ -40,7 +46,7 @@ namespace VisionSystemAmetek
             imagelist = new ImageList();
             imagelist.ImageSize = new Size(100, 100);
             listViewImage.LargeImageList = imagelist;
-            labelDesc.Text = string.Empty;
+            //labelDesc.Text = string.Empty;
             model = new MLModel();
             model.mlContext.Log += MlContext_Log;
             dataGridViewReport.CellFormatting += DataGridViewReport_CellFormatting;
@@ -50,6 +56,8 @@ namespace VisionSystemAmetek
             panelbutton.Show();
             PanelButton = true;
             trainUserControl1.Hide();
+            buttonTest.Enabled = false;
+            comboBoxModels.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
         private void Telltale_OnReportTime(object? sender, EmguClass.Args.TimerEventArgs e)
@@ -234,7 +242,7 @@ namespace VisionSystemAmetek
 
                 // Hacer algo con la imagen, por ejemplo, mostrarla en un PictureBox
                 pictureBoxMain.Image = clickedImage;
-                labelDesc.Text = $"Width: {clickedImage.Width}, Height: {clickedImage.Height}";
+                //labelDesc.Text = $"Width: {clickedImage.Width}, Height: {clickedImage.Height}";
             }
         }
 
@@ -246,7 +254,7 @@ namespace VisionSystemAmetek
             using (NewModel d = new NewModel())
             {
                 d.ShowDialog();
-                if (d.success) 
+                if (d.success)
                 {
                     Project = d.NewConfig;
 
@@ -307,7 +315,7 @@ namespace VisionSystemAmetek
             buttonSave.Hide();
             trainUserControl1.Hide();
             Project = null;
-            trainUserControl1.Cancel(); 
+            trainUserControl1.Cancel();
         }
 
         #endregion
@@ -332,5 +340,56 @@ namespace VisionSystemAmetek
         {
             ConfigFile.SaveConfig(trainUserControl1.GetProject());
         }
+
+        #region Tester
+
+
+        private void buttonOpenProject_Click(object sender, EventArgs e)
+        {
+            var fileContent = string.Empty;
+            var filePath = string.Empty;
+
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.InitialDirectory = "C:\\MLProyects";
+                openFileDialog.Filter = "json files (*.json)|*.json";
+                openFileDialog.FilterIndex = 1;
+                openFileDialog.RestoreDirectory = false;
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    //Get the path of specified file
+                    filePath = openFileDialog.FileName;
+
+                    _CurrentTestProject = ConfigFile.LoadConfig(filePath);
+
+                    if (_CurrentTestProject != null)
+                    {
+                        LoadModels();
+                    }
+                }
+            }
+        }
+
+        private void LoadModels()
+        {
+            comboBoxModels.DataSource = _CurrentTestProject.Models.Select(x => x.ModelName).ToList();
+        }
+
+
+        private void comboBoxModels_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _CurrentModel = comboBoxModels.Text;
+            if (!string.IsNullOrEmpty(_CurrentModel))
+            {
+                buttonTest.Enabled = true;
+            }
+            else 
+            {
+                buttonTest.Enabled = false;
+            }
+        }
+        #endregion
+
     }
 }

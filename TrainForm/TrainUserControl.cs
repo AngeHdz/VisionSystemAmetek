@@ -24,6 +24,7 @@ namespace VisionSystemAmetek.TrainForm
         Bitmap JustProcess;
         Bitmap OriginalImage;
         private ProjectConfig Project;
+        private string _CurrentModel = string.Empty;
 
         public TrainUserControl()
         {
@@ -32,6 +33,7 @@ namespace VisionSystemAmetek.TrainForm
             comboBoxCaptureType.DataSource = captype;
             buttonLoadCapture.Enabled = false;
             buttonReload.Hide();
+            comboBoxModels.DropDownStyle = ComboBoxStyle.DropDownList;
         }
         #endregion
 
@@ -68,6 +70,13 @@ namespace VisionSystemAmetek.TrainForm
             reloadListCat();
             reloadListProcess();
             reloadListSteps();
+            reloadModels();
+            
+        }
+
+        protected void reloadModels()
+        {
+            comboBoxModels.DataSource = Project.Models.Select(x => x.ModelName).ToList();
         }
 
         protected void reloadListProcess()
@@ -80,9 +89,20 @@ namespace VisionSystemAmetek.TrainForm
             listBoxRois.DataSource = Project.RoiClasses.Select(x => x.Name).ToList();
         }
 
-        protected void reloadListSteps() 
+        protected void reloadListSteps()
         {
-            listBoxTestSteps.DataSource = Project.TestSteps.Select(x => x.TestStepName).ToList();
+            //listBoxTestSteps.DataSource = Project.TestSteps.Select(x => x.TestStepName).ToList();
+
+            int i = 0;
+            foreach (Models d in Project.Models)
+            {
+                if (Project.Models[i].ModelName == _CurrentModel)
+                {
+                    listBoxTestSteps.DataSource = Project.Models[i].TestSteps.Select(x => x.TestStepName).ToList();
+                    return;
+                }
+                i++;
+            }
         }
 
         protected void reloadListCat()
@@ -255,7 +275,7 @@ namespace VisionSystemAmetek.TrainForm
         {
 
             var data = (ListBox)sender;
-            using (GetPatternsForm p = new GetPatternsForm(ProcessImage, data.SelectedItem.ToString(), Project.TraiPath))
+            using (GetPatternsForm p = new GetPatternsForm(Project, ProcessImage, data.SelectedItem.ToString(), Project.TraiPath))
             {
                 p.ShowDialog();
 
@@ -289,6 +309,7 @@ namespace VisionSystemAmetek.TrainForm
             }
         }
         #endregion
+
         #region ProcessImage
         //private Bitmap GetLastImage()
         //{
@@ -345,25 +366,66 @@ namespace VisionSystemAmetek.TrainForm
             }
         }
 
-        private void buttonAddModel_Click(object sender, EventArgs e)
-        {
-
-        }
-
         #region TestSteps
         private void buttonAddTestSteps_Click(object sender, EventArgs e)
         {
-            using (StepTestWindow stepwidnows = new StepTestWindow(Project,JustProcess))
+            using (StepTestWindow stepwidnows = new StepTestWindow(Project, JustProcess))
             {
                 stepwidnows.ShowDialog();
-                if (stepwidnows._success) 
+                if (stepwidnows._success)
                 {
-                    Project.TestSteps.Add(stepwidnows.Step);
+                    //Project.TestSteps.Add(stepwidnows.Step);
+                    int i = 0;
+                    foreach (Models d in Project.Models)
+                    {
+                        if (Project.Models[i].ModelName == _CurrentModel) 
+                        {
+                            Project.Models[i].TestSteps.Add(stepwidnows.Step);
+                        } 
+                        i++;
+                    }
                 }
             }
             reloadListSteps();
         }
 
         #endregion
+
+        #region Models
+
+        private void buttonModelsAdd_Click(object sender, EventArgs e)
+        {
+            using (CreateModel modelWindow = new CreateModel(Project.Models))
+            {
+                modelWindow.ShowDialog();
+                if (modelWindow.success)
+                {
+                    Project.Models.Add(modelWindow.NewModel);
+                }
+            }
+            reloadModels();
+        }
+
+        private void buttonModelsDelete_Click(object sender, EventArgs e)
+        {
+            Project.Models.RemoveAll(x => x.ModelName == comboBoxModels.Text);
+            reloadModels();
+        }
+
+        private void comboBoxModels_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _CurrentModel = comboBoxModels.Text;
+            reloadListSteps();
+        }
+
+        #endregion
+
+        #region Update TestSteps
+
+
+
+        #endregion
+
+
     }
 }

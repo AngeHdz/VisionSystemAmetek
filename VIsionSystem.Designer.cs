@@ -50,10 +50,13 @@
             panel5 = new Panel();
             panel4 = new Panel();
             tabPage6 = new TabPage();
-            listBoxLog = new ListBox();
             buttonTrain = new Button();
+            listBoxLog = new ListBox();
             panel1 = new Panel();
-            labelDesc = new Label();
+            panel10 = new Panel();
+            label1 = new Label();
+            comboBoxModels = new ComboBox();
+            buttonOpenProject = new Button();
             buttonTest = new Button();
             tabPage2 = new TabPage();
             panelMain = new Panel();
@@ -84,6 +87,7 @@
             tabPage3.SuspendLayout();
             tabPage6.SuspendLayout();
             panel1.SuspendLayout();
+            panel10.SuspendLayout();
             tabPage2.SuspendLayout();
             panelMain.SuspendLayout();
             panelButtonHide.SuspendLayout();
@@ -105,21 +109,22 @@
             // 
             tabPageTallTale.Controls.Add(panel2);
             tabPageTallTale.Controls.Add(panel1);
+            tabPageTallTale.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             tabPageTallTale.Location = new Point(4, 24);
             tabPageTallTale.Name = "tabPageTallTale";
             tabPageTallTale.Padding = new Padding(3);
             tabPageTallTale.Size = new Size(1083, 495);
             tabPageTallTale.TabIndex = 0;
-            tabPageTallTale.Text = "Hvac TellTale";
+            tabPageTallTale.Text = "Tester";
             tabPageTallTale.UseVisualStyleBackColor = true;
             // 
             // panel2
             // 
             panel2.Controls.Add(tabControl2);
             panel2.Dock = DockStyle.Fill;
-            panel2.Location = new Point(3, 33);
+            panel2.Location = new Point(3, 43);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1077, 459);
+            panel2.Size = new Size(1077, 449);
             panel2.TabIndex = 1;
             // 
             // tabControl2
@@ -132,18 +137,18 @@
             tabControl2.Margin = new Padding(3, 2, 3, 2);
             tabControl2.Name = "tabControl2";
             tabControl2.SelectedIndex = 0;
-            tabControl2.Size = new Size(1077, 459);
+            tabControl2.Size = new Size(1077, 449);
             tabControl2.TabIndex = 1;
             // 
             // tabPage1
             // 
             tabPage1.Controls.Add(panel6);
             tabPage1.Controls.Add(panel3);
-            tabPage1.Location = new Point(4, 24);
+            tabPage1.Location = new Point(4, 26);
             tabPage1.Margin = new Padding(3, 2, 3, 2);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3, 2, 3, 2);
-            tabPage1.Size = new Size(1069, 431);
+            tabPage1.Size = new Size(1069, 419);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Test";
             tabPage1.UseVisualStyleBackColor = true;
@@ -156,7 +161,7 @@
             panel6.Location = new Point(156, 2);
             panel6.Margin = new Padding(3, 2, 3, 2);
             panel6.Name = "panel6";
-            panel6.Size = new Size(910, 427);
+            panel6.Size = new Size(910, 415);
             panel6.TabIndex = 1;
             // 
             // panel8
@@ -166,7 +171,7 @@
             panel8.Location = new Point(0, 0);
             panel8.Margin = new Padding(3, 2, 3, 2);
             panel8.Name = "panel8";
-            panel8.Size = new Size(910, 352);
+            panel8.Size = new Size(910, 340);
             panel8.TabIndex = 2;
             // 
             // tabControl3
@@ -178,17 +183,17 @@
             tabControl3.Margin = new Padding(3, 2, 3, 2);
             tabControl3.Name = "tabControl3";
             tabControl3.SelectedIndex = 0;
-            tabControl3.Size = new Size(910, 352);
+            tabControl3.Size = new Size(910, 340);
             tabControl3.TabIndex = 1;
             // 
             // tabPage4
             // 
             tabPage4.Controls.Add(pictureBoxMain);
-            tabPage4.Location = new Point(4, 24);
+            tabPage4.Location = new Point(4, 26);
             tabPage4.Margin = new Padding(3, 2, 3, 2);
             tabPage4.Name = "tabPage4";
             tabPage4.Padding = new Padding(3, 2, 3, 2);
-            tabPage4.Size = new Size(902, 324);
+            tabPage4.Size = new Size(902, 310);
             tabPage4.TabIndex = 0;
             tabPage4.Text = "Image";
             tabPage4.UseVisualStyleBackColor = true;
@@ -198,7 +203,7 @@
             pictureBoxMain.Dock = DockStyle.Fill;
             pictureBoxMain.Location = new Point(3, 2);
             pictureBoxMain.Name = "pictureBoxMain";
-            pictureBoxMain.Size = new Size(896, 320);
+            pictureBoxMain.Size = new Size(896, 306);
             pictureBoxMain.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBoxMain.TabIndex = 0;
             pictureBoxMain.TabStop = false;
@@ -210,7 +215,7 @@
             tabPage5.Margin = new Padding(3, 2, 3, 2);
             tabPage5.Name = "tabPage5";
             tabPage5.Padding = new Padding(3, 2, 3, 2);
-            tabPage5.Size = new Size(902, 324);
+            tabPage5.Size = new Size(902, 312);
             tabPage5.TabIndex = 1;
             tabPage5.Text = "Report";
             tabPage5.UseVisualStyleBackColor = true;
@@ -224,7 +229,7 @@
             dataGridViewReport.Name = "dataGridViewReport";
             dataGridViewReport.RowHeadersVisible = false;
             dataGridViewReport.RowHeadersWidth = 51;
-            dataGridViewReport.Size = new Size(896, 320);
+            dataGridViewReport.Size = new Size(896, 308);
             dataGridViewReport.TabIndex = 1;
             // 
             // panel7
@@ -232,7 +237,7 @@
             panel7.Controls.Add(labelStatus);
             panel7.Controls.Add(panel9);
             panel7.Dock = DockStyle.Bottom;
-            panel7.Location = new Point(0, 352);
+            panel7.Location = new Point(0, 340);
             panel7.Margin = new Padding(3, 2, 3, 2);
             panel7.Name = "panel7";
             panel7.Size = new Size(910, 75);
@@ -275,7 +280,7 @@
             panel3.Location = new Point(3, 2);
             panel3.Margin = new Padding(3, 2, 3, 2);
             panel3.Name = "panel3";
-            panel3.Size = new Size(153, 427);
+            panel3.Size = new Size(153, 415);
             panel3.TabIndex = 0;
             // 
             // listViewImage
@@ -283,7 +288,7 @@
             listViewImage.Dock = DockStyle.Fill;
             listViewImage.Location = new Point(0, 0);
             listViewImage.Name = "listViewImage";
-            listViewImage.Size = new Size(153, 427);
+            listViewImage.Size = new Size(153, 415);
             listViewImage.TabIndex = 0;
             listViewImage.UseCompatibleStateImageBehavior = false;
             listViewImage.MouseClick += listViewImage_MouseClick;
@@ -292,11 +297,11 @@
             // 
             tabPage3.Controls.Add(panel5);
             tabPage3.Controls.Add(panel4);
-            tabPage3.Location = new Point(4, 24);
+            tabPage3.Location = new Point(4, 26);
             tabPage3.Margin = new Padding(3, 2, 3, 2);
             tabPage3.Name = "tabPage3";
             tabPage3.Padding = new Padding(3, 2, 3, 2);
-            tabPage3.Size = new Size(1069, 431);
+            tabPage3.Size = new Size(1069, 419);
             tabPage3.TabIndex = 1;
             tabPage3.Text = "Config";
             tabPage3.UseVisualStyleBackColor = true;
@@ -307,7 +312,7 @@
             panel5.Location = new Point(3, 47);
             panel5.Margin = new Padding(3, 2, 3, 2);
             panel5.Name = "panel5";
-            panel5.Size = new Size(1063, 382);
+            panel5.Size = new Size(1063, 370);
             panel5.TabIndex = 2;
             // 
             // panel4
@@ -323,24 +328,14 @@
             // 
             tabPage6.Controls.Add(buttonTrain);
             tabPage6.Controls.Add(listBoxLog);
-            tabPage6.Location = new Point(4, 24);
+            tabPage6.Location = new Point(4, 26);
             tabPage6.Margin = new Padding(3, 2, 3, 2);
             tabPage6.Name = "tabPage6";
             tabPage6.Padding = new Padding(3, 2, 3, 2);
-            tabPage6.Size = new Size(1069, 431);
+            tabPage6.Size = new Size(1069, 419);
             tabPage6.TabIndex = 2;
             tabPage6.Text = "Train";
             tabPage6.UseVisualStyleBackColor = true;
-            // 
-            // listBoxLog
-            // 
-            listBoxLog.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            listBoxLog.FormattingEnabled = true;
-            listBoxLog.ItemHeight = 15;
-            listBoxLog.Location = new Point(13, 41);
-            listBoxLog.Name = "listBoxLog";
-            listBoxLog.Size = new Size(1052, 379);
-            listBoxLog.TabIndex = 2;
             // 
             // buttonTrain
             // 
@@ -352,36 +347,84 @@
             buttonTrain.UseVisualStyleBackColor = true;
             buttonTrain.Click += buttonTrain_Click;
             // 
+            // listBoxLog
+            // 
+            listBoxLog.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            listBoxLog.FormattingEnabled = true;
+            listBoxLog.ItemHeight = 17;
+            listBoxLog.Location = new Point(13, 41);
+            listBoxLog.Name = "listBoxLog";
+            listBoxLog.Size = new Size(1052, 344);
+            listBoxLog.TabIndex = 2;
+            // 
             // panel1
             // 
-            panel1.Controls.Add(labelDesc);
+            panel1.Controls.Add(panel10);
+            panel1.Controls.Add(buttonOpenProject);
             panel1.Controls.Add(buttonTest);
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(3, 3);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1077, 30);
+            panel1.Size = new Size(1077, 40);
             panel1.TabIndex = 0;
             // 
-            // labelDesc
+            // panel10
             // 
-            labelDesc.Dock = DockStyle.Fill;
-            labelDesc.Location = new Point(150, 0);
-            labelDesc.Name = "labelDesc";
-            labelDesc.Size = new Size(927, 30);
-            labelDesc.TabIndex = 1;
-            labelDesc.Text = "label description";
-            labelDesc.TextAlign = ContentAlignment.MiddleCenter;
+            panel10.Controls.Add(label1);
+            panel10.Controls.Add(comboBoxModels);
+            panel10.Dock = DockStyle.Left;
+            panel10.Location = new Point(108, 0);
+            panel10.Name = "panel10";
+            panel10.Size = new Size(392, 40);
+            panel10.TabIndex = 2;
+            // 
+            // label1
+            // 
+            label1.Dock = DockStyle.Left;
+            label1.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.Location = new Point(0, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(93, 40);
+            label1.TabIndex = 1;
+            label1.Text = "Model:";
+            label1.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // comboBoxModels
+            // 
+            comboBoxModels.Dock = DockStyle.Right;
+            comboBoxModels.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            comboBoxModels.FormattingEnabled = true;
+            comboBoxModels.Location = new Point(94, 0);
+            comboBoxModels.Name = "comboBoxModels";
+            comboBoxModels.Size = new Size(298, 38);
+            comboBoxModels.TabIndex = 0;
+            comboBoxModels.SelectedIndexChanged += comboBoxModels_SelectedIndexChanged;
+            // 
+            // buttonOpenProject
+            // 
+            buttonOpenProject.BackColor = Color.Cyan;
+            buttonOpenProject.Dock = DockStyle.Left;
+            buttonOpenProject.FlatAppearance.BorderSize = 0;
+            buttonOpenProject.FlatStyle = FlatStyle.Flat;
+            buttonOpenProject.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            buttonOpenProject.Location = new Point(0, 0);
+            buttonOpenProject.Name = "buttonOpenProject";
+            buttonOpenProject.Size = new Size(108, 40);
+            buttonOpenProject.TabIndex = 1;
+            buttonOpenProject.Text = "OpenProject";
+            buttonOpenProject.UseVisualStyleBackColor = false;
+            buttonOpenProject.Click += buttonOpenProject_Click;
             // 
             // buttonTest
             // 
             buttonTest.BackColor = Color.PaleGreen;
-            buttonTest.Dock = DockStyle.Left;
+            buttonTest.Dock = DockStyle.Right;
             buttonTest.FlatAppearance.BorderSize = 0;
             buttonTest.FlatStyle = FlatStyle.Flat;
             buttonTest.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            buttonTest.Location = new Point(0, 0);
+            buttonTest.Location = new Point(927, 0);
             buttonTest.Name = "buttonTest";
-            buttonTest.Size = new Size(150, 30);
+            buttonTest.Size = new Size(150, 40);
             buttonTest.TabIndex = 0;
             buttonTest.Text = "Test";
             buttonTest.UseVisualStyleBackColor = false;
@@ -396,7 +439,7 @@
             tabPage2.Padding = new Padding(3);
             tabPage2.Size = new Size(1083, 495);
             tabPage2.TabIndex = 1;
-            tabPage2.Text = "Train a model";
+            tabPage2.Text = "Trainer";
             tabPage2.UseVisualStyleBackColor = true;
             // 
             // panelMain
@@ -525,6 +568,7 @@
             tabPage3.ResumeLayout(false);
             tabPage6.ResumeLayout(false);
             panel1.ResumeLayout(false);
+            panel10.ResumeLayout(false);
             tabPage2.ResumeLayout(false);
             panelMain.ResumeLayout(false);
             panelButtonHide.ResumeLayout(false);
@@ -540,7 +584,6 @@
         private Panel panel2;
         private Panel panel1;
         private Button buttonTest;
-        private Label labelDesc;
         private PictureBox pictureBoxMain;
         private ListView listViewImage;
         private TabControl tabControl2;
@@ -573,5 +616,9 @@
         private Button buttonHide;
         private Panel panelMain;
         private TrainForm.TrainUserControl trainUserControl1;
+        private Button buttonOpenProject;
+        private Panel panel10;
+        private ComboBox comboBoxModels;
+        private Label label1;
     }
 }

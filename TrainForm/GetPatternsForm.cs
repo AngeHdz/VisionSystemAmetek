@@ -11,6 +11,8 @@ using VisionSystemConfigFile;
 using EmguClass;
 using Emgu.CV;
 using Emgu.CV.Structure;
+using MLClass;
+using Microsoft.VisualBasic.Logging;
 
 namespace VisionSystemAmetek.TrainForm
 {
@@ -25,7 +27,9 @@ namespace VisionSystemAmetek.TrainForm
         string pathtosave;
         public bool Success;
         public RoiClass NewRoi = null;
-        public GetPatternsForm(Bitmap image, string NameCat, string PathToSave)
+        ProjectConfig _project;
+        MLModel model;
+        public GetPatternsForm(ProjectConfig project,Bitmap image, string NameCat, string PathToSave)
         {
             InitializeComponent();
             labelNameCat.Text = NameCat;
@@ -35,6 +39,13 @@ namespace VisionSystemAmetek.TrainForm
             rect = Rectangle.Empty;
             nameCat = NameCat;
             pathtosave = PathToSave;
+            _project = project;
+
+            if (File.Exists(_project.ModelPath)) 
+            {
+                model = new MLModel();
+                model.PathModel = _project.ModelPath;
+            }
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)
@@ -85,13 +96,40 @@ namespace VisionSystemAmetek.TrainForm
 
         private void pictureBoxMain_MouseUp(object sender, MouseEventArgs e)
         {
+            labelLog.Text = string.Empty;
             if (MouseDown)
             {
                 MouseDown = false;
-                buttonDone.Show();
                 Pattern = VisionClass.GetRoi(rect, Image);
                 pictureBoxPattern.Image = Pattern;
+
+                string key = string.Empty;
+                float acc = 0;
+                model.Test(VisionClass.ImageToByteArray(Pattern.ToImage<Bgr, byte>()), ref key, ref acc, _project.ModelPath);
+               
+                labelLog.Text = $"Size - W:{Pattern.Width}p x H:{Pattern.Height}p\nCategory: {key}\n Acc: {acc}";
+                if (acc >= .9 && nameCat == key)
+                {
+                    labelNameCat.ForeColor = Color.Black;
+                    buttonDone.Show();
+                    return;
+                }
+
+                if (model.Categories.Contains(key) && acc >= .8) 
+                {
+                    labelNameCat.ForeColor = Color.Red;
+                    return;
+                }
+
+                if (!model.Categories.Contains(nameCat))
+                {
+                    buttonDone.Show();
+                    return;
+                }
+                labelNameCat.ForeColor = Color.Red;
             }
+
+
         }
 
         private void pictureBoxMain_Paint(object sender, PaintEventArgs e)

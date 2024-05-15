@@ -30,12 +30,6 @@
         {
             panel2 = new Panel();
             tableLayoutPanel1 = new TableLayoutPanel();
-            groupBoxProcessImage = new GroupBox();
-            panel3 = new Panel();
-            buttonProcess = new Button();
-            buttonDeleteProcessImage = new Button();
-            buttonAddProcessImage = new Button();
-            listBoxProcessImage = new ListBox();
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
             panel4 = new Panel();
@@ -48,24 +42,37 @@
             buttonAddCategori = new Button();
             listBoxCat = new ListBox();
             groupBoxTest = new GroupBox();
+            buttonAddTestSteps = new Button();
             listBoxTestSteps = new ListBox();
+            panel1 = new Panel();
+            tabControl2 = new TabControl();
+            tabPage3 = new TabPage();
+            buttonModelsDelete = new Button();
+            buttonModelsAdd = new Button();
+            comboBoxModels = new ComboBox();
+            tabPage4 = new TabPage();
+            buttonDeleteProcessImage = new Button();
+            buttonAddProcessImage = new Button();
+            buttonProcess = new Button();
+            listBoxProcessImage = new ListBox();
             groupBoxCapture = new GroupBox();
             buttonReload = new Button();
             buttonLoadCapture = new Button();
             label1 = new Label();
             comboBoxCaptureType = new ComboBox();
             pictureBoxMain = new PictureBox();
-            buttonAddTestSteps = new Button();
             panel2.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
-            groupBoxProcessImage.SuspendLayout();
-            panel3.SuspendLayout();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             panel4.SuspendLayout();
             tabPage2.SuspendLayout();
             panel5.SuspendLayout();
             groupBoxTest.SuspendLayout();
+            panel1.SuspendLayout();
+            tabControl2.SuspendLayout();
+            tabPage3.SuspendLayout();
+            tabPage4.SuspendLayout();
             groupBoxCapture.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxMain).BeginInit();
             SuspendLayout();
@@ -84,9 +91,9 @@
             // 
             tableLayoutPanel1.ColumnCount = 1;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tableLayoutPanel1.Controls.Add(groupBoxProcessImage, 0, 0);
             tableLayoutPanel1.Controls.Add(tabControl1, 0, 1);
             tableLayoutPanel1.Controls.Add(groupBoxTest, 0, 2);
+            tableLayoutPanel1.Controls.Add(panel1, 0, 0);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 92);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -96,72 +103,6 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 33.3333321F));
             tableLayoutPanel1.Size = new Size(211, 397);
             tableLayoutPanel1.TabIndex = 1;
-            // 
-            // groupBoxProcessImage
-            // 
-            groupBoxProcessImage.Controls.Add(panel3);
-            groupBoxProcessImage.Controls.Add(listBoxProcessImage);
-            groupBoxProcessImage.Dock = DockStyle.Fill;
-            groupBoxProcessImage.Location = new Point(3, 3);
-            groupBoxProcessImage.Name = "groupBoxProcessImage";
-            groupBoxProcessImage.Size = new Size(205, 126);
-            groupBoxProcessImage.TabIndex = 3;
-            groupBoxProcessImage.TabStop = false;
-            groupBoxProcessImage.Text = "Process Image";
-            // 
-            // panel3
-            // 
-            panel3.Controls.Add(buttonProcess);
-            panel3.Controls.Add(buttonDeleteProcessImage);
-            panel3.Controls.Add(buttonAddProcessImage);
-            panel3.Dock = DockStyle.Fill;
-            panel3.Location = new Point(138, 19);
-            panel3.Name = "panel3";
-            panel3.Size = new Size(64, 104);
-            panel3.TabIndex = 1;
-            // 
-            // buttonProcess
-            // 
-            buttonProcess.Dock = DockStyle.Bottom;
-            buttonProcess.Location = new Point(0, 81);
-            buttonProcess.Name = "buttonProcess";
-            buttonProcess.Size = new Size(64, 23);
-            buttonProcess.TabIndex = 6;
-            buttonProcess.Text = "Process";
-            buttonProcess.UseVisualStyleBackColor = true;
-            buttonProcess.Click += buttonProcess_Click;
-            // 
-            // buttonDeleteProcessImage
-            // 
-            buttonDeleteProcessImage.Dock = DockStyle.Top;
-            buttonDeleteProcessImage.Location = new Point(0, 23);
-            buttonDeleteProcessImage.Name = "buttonDeleteProcessImage";
-            buttonDeleteProcessImage.Size = new Size(64, 23);
-            buttonDeleteProcessImage.TabIndex = 5;
-            buttonDeleteProcessImage.Text = "Delete";
-            buttonDeleteProcessImage.UseVisualStyleBackColor = true;
-            buttonDeleteProcessImage.Click += buttonDeleteProcessImage_Click;
-            // 
-            // buttonAddProcessImage
-            // 
-            buttonAddProcessImage.Dock = DockStyle.Top;
-            buttonAddProcessImage.Location = new Point(0, 0);
-            buttonAddProcessImage.Name = "buttonAddProcessImage";
-            buttonAddProcessImage.Size = new Size(64, 23);
-            buttonAddProcessImage.TabIndex = 4;
-            buttonAddProcessImage.Text = "Add";
-            buttonAddProcessImage.UseVisualStyleBackColor = true;
-            buttonAddProcessImage.Click += buttonAddProcessImage_Click;
-            // 
-            // listBoxProcessImage
-            // 
-            listBoxProcessImage.Dock = DockStyle.Left;
-            listBoxProcessImage.FormattingEnabled = true;
-            listBoxProcessImage.ItemHeight = 15;
-            listBoxProcessImage.Location = new Point(3, 19);
-            listBoxProcessImage.Name = "listBoxProcessImage";
-            listBoxProcessImage.Size = new Size(135, 104);
-            listBoxProcessImage.TabIndex = 0;
             // 
             // tabControl1
             // 
@@ -296,6 +237,17 @@
             groupBoxTest.TabStop = false;
             groupBoxTest.Text = "TestSteps";
             // 
+            // buttonAddTestSteps
+            // 
+            buttonAddTestSteps.Dock = DockStyle.Top;
+            buttonAddTestSteps.Location = new Point(135, 19);
+            buttonAddTestSteps.Name = "buttonAddTestSteps";
+            buttonAddTestSteps.Size = new Size(67, 23);
+            buttonAddTestSteps.TabIndex = 4;
+            buttonAddTestSteps.Text = "Add";
+            buttonAddTestSteps.UseVisualStyleBackColor = true;
+            buttonAddTestSteps.Click += buttonAddTestSteps_Click;
+            // 
             // listBoxTestSteps
             // 
             listBoxTestSteps.Dock = DockStyle.Left;
@@ -305,6 +257,126 @@
             listBoxTestSteps.Name = "listBoxTestSteps";
             listBoxTestSteps.Size = new Size(132, 105);
             listBoxTestSteps.TabIndex = 0;
+            // 
+            // panel1
+            // 
+            panel1.Controls.Add(tabControl2);
+            panel1.Dock = DockStyle.Fill;
+            panel1.Location = new Point(3, 3);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(205, 126);
+            panel1.TabIndex = 6;
+            // 
+            // tabControl2
+            // 
+            tabControl2.Controls.Add(tabPage3);
+            tabControl2.Controls.Add(tabPage4);
+            tabControl2.Dock = DockStyle.Fill;
+            tabControl2.Location = new Point(0, 0);
+            tabControl2.Name = "tabControl2";
+            tabControl2.SelectedIndex = 0;
+            tabControl2.Size = new Size(205, 126);
+            tabControl2.TabIndex = 5;
+            // 
+            // tabPage3
+            // 
+            tabPage3.Controls.Add(buttonModelsDelete);
+            tabPage3.Controls.Add(buttonModelsAdd);
+            tabPage3.Controls.Add(comboBoxModels);
+            tabPage3.Location = new Point(4, 24);
+            tabPage3.Name = "tabPage3";
+            tabPage3.Padding = new Padding(3);
+            tabPage3.Size = new Size(197, 98);
+            tabPage3.TabIndex = 0;
+            tabPage3.Text = "Models";
+            tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // buttonModelsDelete
+            // 
+            buttonModelsDelete.Location = new Point(116, 52);
+            buttonModelsDelete.Name = "buttonModelsDelete";
+            buttonModelsDelete.Size = new Size(75, 23);
+            buttonModelsDelete.TabIndex = 2;
+            buttonModelsDelete.Text = "Delete";
+            buttonModelsDelete.UseVisualStyleBackColor = true;
+            buttonModelsDelete.Click += buttonModelsDelete_Click;
+            // 
+            // buttonModelsAdd
+            // 
+            buttonModelsAdd.Location = new Point(6, 52);
+            buttonModelsAdd.Name = "buttonModelsAdd";
+            buttonModelsAdd.Size = new Size(75, 23);
+            buttonModelsAdd.TabIndex = 1;
+            buttonModelsAdd.Text = "Add";
+            buttonModelsAdd.UseVisualStyleBackColor = true;
+            buttonModelsAdd.Click += buttonModelsAdd_Click;
+            // 
+            // comboBoxModels
+            // 
+            comboBoxModels.Dock = DockStyle.Top;
+            comboBoxModels.FormattingEnabled = true;
+            comboBoxModels.Location = new Point(3, 3);
+            comboBoxModels.Name = "comboBoxModels";
+            comboBoxModels.Size = new Size(191, 23);
+            comboBoxModels.TabIndex = 0;
+            comboBoxModels.SelectedIndexChanged += comboBoxModels_SelectedIndexChanged;
+            // 
+            // tabPage4
+            // 
+            tabPage4.Controls.Add(buttonDeleteProcessImage);
+            tabPage4.Controls.Add(buttonAddProcessImage);
+            tabPage4.Controls.Add(buttonProcess);
+            tabPage4.Controls.Add(listBoxProcessImage);
+            tabPage4.Location = new Point(4, 24);
+            tabPage4.Name = "tabPage4";
+            tabPage4.Padding = new Padding(3);
+            tabPage4.Size = new Size(197, 98);
+            tabPage4.TabIndex = 1;
+            tabPage4.Text = "Process Image";
+            tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // buttonDeleteProcessImage
+            // 
+            buttonDeleteProcessImage.Dock = DockStyle.Top;
+            buttonDeleteProcessImage.Location = new Point(131, 26);
+            buttonDeleteProcessImage.Name = "buttonDeleteProcessImage";
+            buttonDeleteProcessImage.Size = new Size(63, 23);
+            buttonDeleteProcessImage.TabIndex = 9;
+            buttonDeleteProcessImage.Text = "Delete";
+            buttonDeleteProcessImage.UseVisualStyleBackColor = true;
+            buttonDeleteProcessImage.Click += buttonDeleteProcessImage_Click;
+            // 
+            // buttonAddProcessImage
+            // 
+            buttonAddProcessImage.Dock = DockStyle.Top;
+            buttonAddProcessImage.Location = new Point(131, 3);
+            buttonAddProcessImage.Name = "buttonAddProcessImage";
+            buttonAddProcessImage.Size = new Size(63, 23);
+            buttonAddProcessImage.TabIndex = 8;
+            buttonAddProcessImage.Text = "Add";
+            buttonAddProcessImage.UseVisualStyleBackColor = true;
+            buttonAddProcessImage.Click += buttonAddProcessImage_Click;
+            // 
+            // buttonProcess
+            // 
+            buttonProcess.Dock = DockStyle.Bottom;
+            buttonProcess.Location = new Point(131, 72);
+            buttonProcess.Name = "buttonProcess";
+            buttonProcess.Size = new Size(63, 23);
+            buttonProcess.TabIndex = 7;
+            buttonProcess.Text = "Process";
+            buttonProcess.UseVisualStyleBackColor = true;
+            buttonProcess.Click += buttonProcess_Click;
+            // 
+            // listBoxProcessImage
+            // 
+            listBoxProcessImage.Dock = DockStyle.Left;
+            listBoxProcessImage.FormattingEnabled = true;
+            listBoxProcessImage.ItemHeight = 15;
+            listBoxProcessImage.Location = new Point(3, 3);
+            listBoxProcessImage.Name = "listBoxProcessImage";
+            listBoxProcessImage.Size = new Size(128, 92);
+            listBoxProcessImage.TabIndex = 1;
             // 
             // groupBoxCapture
             // 
@@ -322,7 +394,7 @@
             // 
             // buttonReload
             // 
-            buttonReload.Location = new Point(119, 62);
+            buttonReload.Location = new Point(126, 52);
             buttonReload.Name = "buttonReload";
             buttonReload.Size = new Size(75, 23);
             buttonReload.TabIndex = 3;
@@ -332,7 +404,7 @@
             // 
             // buttonLoadCapture
             // 
-            buttonLoadCapture.Location = new Point(6, 62);
+            buttonLoadCapture.Location = new Point(6, 52);
             buttonLoadCapture.Name = "buttonLoadCapture";
             buttonLoadCapture.Size = new Size(75, 23);
             buttonLoadCapture.TabIndex = 2;
@@ -368,17 +440,6 @@
             pictureBoxMain.TabIndex = 2;
             pictureBoxMain.TabStop = false;
             // 
-            // buttonAddTestSteps
-            // 
-            buttonAddTestSteps.Dock = DockStyle.Top;
-            buttonAddTestSteps.Location = new Point(135, 19);
-            buttonAddTestSteps.Name = "buttonAddTestSteps";
-            buttonAddTestSteps.Size = new Size(67, 23);
-            buttonAddTestSteps.TabIndex = 4;
-            buttonAddTestSteps.Text = "Add";
-            buttonAddTestSteps.UseVisualStyleBackColor = true;
-            buttonAddTestSteps.Click += buttonAddTestSteps_Click;
-            // 
             // TrainUserControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -389,14 +450,16 @@
             Size = new Size(957, 489);
             panel2.ResumeLayout(false);
             tableLayoutPanel1.ResumeLayout(false);
-            groupBoxProcessImage.ResumeLayout(false);
-            panel3.ResumeLayout(false);
             tabControl1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
             panel4.ResumeLayout(false);
             tabPage2.ResumeLayout(false);
             panel5.ResumeLayout(false);
             groupBoxTest.ResumeLayout(false);
+            panel1.ResumeLayout(false);
+            tabControl2.ResumeLayout(false);
+            tabPage3.ResumeLayout(false);
+            tabPage4.ResumeLayout(false);
             groupBoxCapture.ResumeLayout(false);
             groupBoxCapture.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxMain).EndInit();
@@ -413,9 +476,6 @@
         private Button buttonLoadCapture;
         private PictureBox pictureBoxMain;
         private Button buttonReload;
-        private GroupBox groupBoxProcessImage;
-        private ListBox listBoxProcessImage;
-        private Panel panel3;
         private TabControl tabControl1;
         private TabPage tabPage1;
         private TabPage tabPage2;
@@ -429,9 +489,17 @@
         private ListBox listBoxCat;
         private GroupBox groupBoxTest;
         private ListBox listBoxTestSteps;
-        private Button buttonAddProcessImage;
-        private Button buttonDeleteProcessImage;
-        private Button buttonProcess;
         private Button buttonAddTestSteps;
+        private Panel panel1;
+        private TabControl tabControl2;
+        private TabPage tabPage3;
+        private TabPage tabPage4;
+        private Button buttonDeleteProcessImage;
+        private Button buttonAddProcessImage;
+        private Button buttonProcess;
+        private ListBox listBoxProcessImage;
+        private ComboBox comboBoxModels;
+        private Button buttonModelsDelete;
+        private Button buttonModelsAdd;
     }
 }
