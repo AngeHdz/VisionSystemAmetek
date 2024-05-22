@@ -48,15 +48,15 @@ namespace VisionSystemAmetek.TrainForm
             }
         }
 
-        private void buttonCancel_Click(object sender, EventArgs e)
+        private void ButtonCancel_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
-        private void buttonDone_Click(object sender, EventArgs e)
+        private void ButtonDone_Click(object sender, EventArgs e)
         {
             string pathDir = $"{pathtosave}\\{nameCat}";
-            try 
+            try
             {
                 if (!Directory.Exists(pathDir))
                 {
@@ -65,21 +65,21 @@ namespace VisionSystemAmetek.TrainForm
                 VisionClass.saveRoi(Pattern.ToImage<Bgr, byte>(), nameCat, pathDir);
                 Success = true;
             }
-            catch(Exception ex) 
+            catch (Exception)
             {
                 return;
             }
-            this.Close();
+            Close();
         }
 
-        private void pictureBoxMain_MouseDown(object sender, MouseEventArgs e)
+        private void PictureBoxMain_MouseDown(object sender, MouseEventArgs e)
         {
             MouseDown = true;
             StartROI = e.Location;
             buttonDone.Hide();
         }
 
-        private void pictureBoxMain_MouseMove(object sender, MouseEventArgs e)
+        private void PictureBoxMain_MouseMove(object sender, MouseEventArgs e)
         {
             if (MouseDown)
             {
@@ -94,7 +94,7 @@ namespace VisionSystemAmetek.TrainForm
             }
         }
 
-        private void pictureBoxMain_MouseUp(object sender, MouseEventArgs e)
+        private void PictureBoxMain_MouseUp(object sender, MouseEventArgs e)
         {
             labelLog.Text = string.Empty;
             if (MouseDown)
@@ -105,8 +105,15 @@ namespace VisionSystemAmetek.TrainForm
 
                 string key = string.Empty;
                 float acc = 0;
-                model.Test(VisionClass.ImageToByteArray(Pattern.ToImage<Bgr, byte>()), ref key, ref acc, _project.ModelPath);
-               
+                if (model != null)
+                {
+                    model.Test(VisionClass.ImageToByteArray(Pattern.ToImage<Bgr, byte>()), ref key, ref acc, _project.ModelPath);
+                }
+                else
+                {
+                    acc = 1;
+                    key = nameCat;
+                }
                 labelLog.Text = $"Size - W:{Pattern.Width}p x H:{Pattern.Height}p\nCategory: {key}\n Acc: {acc}";
                 if (acc >= .9 && nameCat == key)
                 {
@@ -115,7 +122,7 @@ namespace VisionSystemAmetek.TrainForm
                     return;
                 }
 
-                if (model.Categories.Contains(key) && acc >= .8) 
+                if (model.Categories.Contains(key) && acc >= .8)
                 {
                     labelNameCat.ForeColor = Color.Red;
                     return;
@@ -132,14 +139,12 @@ namespace VisionSystemAmetek.TrainForm
 
         }
 
-        private void pictureBoxMain_Paint(object sender, PaintEventArgs e)
+        private void PictureBoxMain_Paint(object sender, PaintEventArgs e)
         {
             if (MouseDown)
             {
-                using (Pen pen = new Pen(Color.Green, 3))
-                {
-                    e.Graphics.DrawRectangle(pen, rect);
-                }
+                using Pen pen = new(Color.Green, 3);
+                e.Graphics.DrawRectangle(pen, rect);
             }
         }
     }

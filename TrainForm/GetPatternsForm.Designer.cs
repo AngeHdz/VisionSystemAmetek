@@ -122,7 +122,7 @@
             buttonDone.TabIndex = 2;
             buttonDone.Text = "Done";
             buttonDone.UseVisualStyleBackColor = true;
-            buttonDone.Click += buttonDone_Click;
+            buttonDone.Click += ButtonDone_Click;
             // 
             // buttonCancel
             // 
@@ -133,7 +133,7 @@
             buttonCancel.TabIndex = 1;
             buttonCancel.Text = "Cancel";
             buttonCancel.UseVisualStyleBackColor = true;
-            buttonCancel.Click += buttonCancel_Click;
+            buttonCancel.Click += ButtonCancel_Click;
             // 
             // pictureBoxPattern
             // 
@@ -163,10 +163,10 @@
             pictureBoxMain.SizeMode = PictureBoxSizeMode.AutoSize;
             pictureBoxMain.TabIndex = 0;
             pictureBoxMain.TabStop = false;
-            pictureBoxMain.Paint += pictureBoxMain_Paint;
-            pictureBoxMain.MouseDown += pictureBoxMain_MouseDown;
-            pictureBoxMain.MouseMove += pictureBoxMain_MouseMove;
-            pictureBoxMain.MouseUp += pictureBoxMain_MouseUp;
+            pictureBoxMain.Paint += PictureBoxMain_Paint;
+            pictureBoxMain.MouseDown += PictureBoxMain_MouseDown;
+            pictureBoxMain.MouseMove += PictureBoxMain_MouseMove;
+            pictureBoxMain.MouseUp += PictureBoxMain_MouseUp;
             // 
             // labelLog
             // 

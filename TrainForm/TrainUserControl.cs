@@ -1,18 +1,10 @@
 ﻿using EmguClass;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using VisionSystemConfigFile;
-using EmguClass;
 using VisionSystemAmetek.ProcessWindows;
 using EmguClass.Resources;
+using EmguClass.Camera;
+using Emgu.CV;
 
 namespace VisionSystemAmetek.TrainForm
 {
@@ -20,30 +12,33 @@ namespace VisionSystemAmetek.TrainForm
     {
         #region Main
 
-        Bitmap ProcessImage;
-        Bitmap JustProcess;
-        Bitmap OriginalImage;
+        private Bitmap? ProcessImage;
+        private Bitmap JustProcess;
+        private Bitmap? OriginalImage;
         private ProjectConfig Project;
         private string _CurrentModel = string.Empty;
+        private WebCapture? _WCap;
 
         public TrainUserControl()
         {
             InitializeComponent();
-            string[] captype = new string[] { "Webcam", "IndustrialCam", "File" };
+            string[] captype = ["Webcam", "IndustrialCam", "File"];
             comboBoxCaptureType.DataSource = captype;
             buttonLoadCapture.Enabled = false;
             buttonReload.Hide();
             comboBoxModels.DropDownStyle = ComboBoxStyle.DropDownList;
+            numericUpDownCam.Hide();
+            buttonSnap.Hide();
         }
         #endregion
 
         #region UpdateWindow
 
-        public void SetProject(ProjectConfig _Project)
+        public void SetProject(ProjectConfig project)
         {
-            Project = _Project;
+            Project = project;
             comboBoxCaptureType.Text = Project.captureType.ToString();
-            reload();
+            Reload();
         }
 
         public ProjectConfig GetProject()
@@ -51,48 +46,57 @@ namespace VisionSystemAmetek.TrainForm
             return Project;
         }
 
-        private void comboBoxCaptureType_SelectedValueChanged(object sender, EventArgs e)
+        private void ComboBoxCaptureType_SelectedValueChanged(object sender, EventArgs e)
         {
-            reload();
+            Reload();
         }
 
-        private void buttonReload_Click(object sender, EventArgs e)
+        private void ButtonReload_Click(object sender, EventArgs e)
         {
-            reload();
+            Reload();
         }
 
-        protected void reload()
+        protected void Reload()
         {
-            if (Project == null) return;
+            if (Project == null)
+            {
+                return;
+            }
             Project.captureType = SetCaptureType(comboBoxCaptureType.Text);
             SetImageLoadMethod(Project.captureType);
-            reloadListRoi();
-            reloadListCat();
-            reloadListProcess();
-            reloadListSteps();
-            reloadModels();
-            
+            ReloadListRoi();
+            ReloadListCat();
+            ReloadListProcess();
+            ReloadListSteps();
+            ReloadModels();
         }
 
-        protected void reloadModels()
+        protected void ReloadModels()
         {
-            comboBoxModels.DataSource = Project.Models.Select(x => x.ModelName).ToList();
+            if (Project.Models.Count > 0)
+            {
+                comboBoxModels.DataSource = Project.Models.Select(x => x.ModelName).ToList();
+            }
         }
 
-        protected void reloadListProcess()
+        protected void ReloadListProcess()
         {
-            listBoxProcessImage.DataSource = Project.ProcessImages.Select(x => x.Name).ToList();
+            if (Project.ProcessImages.Count > 0 && Project.ProcessImages != null)
+            {
+                listBoxProcessImage.DataSource = Project.ProcessImages.Select(x => x.Name).ToList();
+            }
         }
 
-        protected void reloadListRoi()
+        protected void ReloadListRoi()
         {
-            listBoxRois.DataSource = Project.RoiClasses.Select(x => x.Name).ToList();
+            if (Project.RoiClasses.Count > 0)
+            {
+                listBoxRois.DataSource = Project.RoiClasses.Select(x => x.Name).ToList();
+            }
         }
 
-        protected void reloadListSteps()
+        protected void ReloadListSteps()
         {
-            //listBoxTestSteps.DataSource = Project.TestSteps.Select(x => x.TestStepName).ToList();
-
             int i = 0;
             foreach (Models d in Project.Models)
             {
@@ -105,7 +109,7 @@ namespace VisionSystemAmetek.TrainForm
             }
         }
 
-        protected void reloadListCat()
+        protected void ReloadListCat()
         {
             listBoxCat.DataSource = Project.Categories.ToArray();
         }
@@ -123,6 +127,8 @@ namespace VisionSystemAmetek.TrainForm
                 case CaptureType.IndustrialCam:
                     SetIndustrialCam();
                     break;
+                default:
+                    break;
             }
         }
 
@@ -131,21 +137,28 @@ namespace VisionSystemAmetek.TrainForm
             buttonLoadCapture.Text = "Capture";
             buttonLoadCapture.Enabled = true;
             buttonReload.Hide();
+            numericUpDownCam.Show();
+            numericUpDownCam.Value = Project.CamNum;
         }
         protected void SetFile()
         {
+            _WCap?.Dispose();
             buttonLoadCapture.Text = "Load";
             buttonLoadCapture.Enabled = true;
             LoadFile(Project.FileCapturePath);
             buttonReload.Show();
-
+            buttonSnap.Hide();
+            numericUpDownCam.Hide();
 
         }
         protected void SetIndustrialCam()
         {
+            _WCap?.Dispose();
             buttonLoadCapture.Text = "Capture";
             buttonLoadCapture.Enabled = true;
             buttonReload.Hide();
+            buttonSnap.Hide();
+            numericUpDownCam.Hide();
         }
 
         public static CaptureType SetCaptureType(string text)
@@ -161,7 +174,7 @@ namespace VisionSystemAmetek.TrainForm
         }
 
 
-        private void buttonLoadCapture_Click(object sender, EventArgs e)
+        private void ButtonLoadCapture_Click(object sender, EventArgs e)
         {
             ExecuteCapture(Project.captureType);
         }
@@ -172,8 +185,7 @@ namespace VisionSystemAmetek.TrainForm
             switch (type)
             {
                 case CaptureType.Webcam:
-                    OriginalImage = WebcamCapture(0);
-                    ProcessImage = OriginalImage;
+                    WebcamCapture();
                     break;
                 case CaptureType.File:
                     OriginalImage = LoadFile();
@@ -181,8 +193,13 @@ namespace VisionSystemAmetek.TrainForm
                     break;
                 case CaptureType.IndustrialCam:
                     break;
+                default:
+                    break;
             }
-            if (OriginalImage == null) buttonRoiAdd.Hide();
+            if (OriginalImage == null)
+            {
+                buttonRoiAdd.Hide();
+            }
             else
             {
                 buttonRoiAdd.Show();
@@ -190,16 +207,63 @@ namespace VisionSystemAmetek.TrainForm
             }
         }
 
-        protected Bitmap WebcamCapture(int CamNum)
+        protected void WebcamCapture()
         {
-            return VisionClass.capture(CamNum);
+            if (buttonLoadCapture.Text == "Stop")
+            {
+                WcapStop();
+                return;
+            }
+            buttonSnap.Show();
+            if (_WCap == null)
+            {
+                _WCap = new WebCapture(Project.CamNum);
+                _WCap.OnCapture += WCap_OnCapture;
+            }
+            buttonLoadCapture.Text = "Stop";
+            _WCap.StartCapture();
+            numericUpDownCam.Enabled = false;
+            comboBoxCaptureType.Enabled = false;
         }
 
-        protected Bitmap LoadFile()
+        private void WcapStop()
+        {
+            if (_WCap != null)
+            {
+                _WCap.Dispose();
+                _WCap = null;
+            }
+            buttonLoadCapture.Text = "Connect";
+            buttonSnap.Hide();
+            numericUpDownCam.Enabled = true;
+            comboBoxCaptureType.Enabled = true;
+        }
+
+        private void WCap_OnCapture(object? sender, CaptureArgs e)
         {
 
-            OpenFileDialog of = new OpenFileDialog();
-            if (Project.LastDirFile != string.Empty) of.InitialDirectory = Project.LastDirFile;
+            if (pictureBoxMain.InvokeRequired)
+            {
+                pictureBoxMain.Invoke(new Action(() =>
+                {
+                    pictureBoxMain.Image = e.Image.ToBitmap();
+                }));
+            }
+            else
+            {
+                pictureBoxMain.Image = e.Image.ToBitmap();
+            }
+        }
+
+        protected Bitmap? LoadFile()
+        {
+
+            OpenFileDialog of = new();
+            if (Project.LastDirFile != string.Empty)
+            {
+                of.InitialDirectory = Project.LastDirFile;
+            }
+
             of.FilterIndex = 1;
             of.RestoreDirectory = false;
             //For any other formats
@@ -229,6 +293,7 @@ namespace VisionSystemAmetek.TrainForm
             }
             catch (Exception e)
             {
+                e.Message.ToString();
                 return;
             }
         }
@@ -247,65 +312,59 @@ namespace VisionSystemAmetek.TrainForm
 
         #region category
 
-        private void buttonAddCategori_Click(object sender, EventArgs e)
+        private void ButtonAddCategori_Click(object sender, EventArgs e)
         {
-            using (CategoriForm cat = new CategoriForm(Project.Categories))
+            using CategoriForm cat = new(Project.Categories);
+            cat.ShowDialog();
+            if (cat.succes)
             {
-                cat.ShowDialog();
-                if (cat.succes)
-                {
-                    if (Project.Categories == null) Project.Categories = new List<string>();
-                    Project.Categories.Add(cat.CategoryName);
-                    reloadListCat();
-                }
+                Project.Categories ??= [];
+                Project.Categories.Add(cat.CategoryName);
+                ReloadListCat();
             }
         }
 
-        private void buttonDeleteCategori_Click(object sender, EventArgs e)
+        private void ButtonDeleteCategori_Click(object sender, EventArgs e)
         {
             if (listBoxCat.Text != string.Empty)
             {
                 Project.Categories.Remove(listBoxCat.SelectedItem.ToString());
-                reloadListCat();
+                ReloadListCat();
             }
 
         }
 
-        private void listBoxCat_DoubleClick(object sender, MouseEventArgs e)
+        private void ListBoxCat_DoubleClick(object sender, MouseEventArgs e)
         {
 
-            var data = (ListBox)sender;
-            using (GetPatternsForm p = new GetPatternsForm(Project, ProcessImage, data.SelectedItem.ToString(), Project.TraiPath))
+            ListBox data = (ListBox)sender;
+            using GetPatternsForm p = new(Project, ProcessImage, data.SelectedItem.ToString(), Project.TraiPath);
+            p.ShowDialog();
+
+            if (p.Success)
             {
-                p.ShowDialog();
 
-                if (p.Success)
-                {
-
-                }
             }
         }
         #endregion
 
         #region RoiRegion
 
-        private void buttonRoiDelete_Click(object sender, EventArgs e)
+        private void ButtonRoiDelete_Click(object sender, EventArgs e)
         {
             Project.RoiClasses.RemoveAll(x => x.Name == listBoxRois.Text);
-            reloadListRoi();
+            ReloadListRoi();
         }
 
-        private void buttonRoiAdd_Click(object sender, EventArgs e)
+        private void ButtonRoiAdd_Click(object sender, EventArgs e)
         {
-            using (CreateROI roiwindow = new CreateROI((Bitmap)pictureBoxMain.Image, listBoxRois.Items.OfType<string>().ToArray()))
+            using CreateROI roiwindow = new((Bitmap)pictureBoxMain.Image, listBoxRois.Items.OfType<string>().ToArray());
+            roiwindow.ShowDialog();
+            if (roiwindow.Success)
             {
-                roiwindow.ShowDialog();
-                if (roiwindow.Success)
-                {
-                    if (Project.RoiClasses == null) Project.RoiClasses = new List<RoiClass>();
-                    Project.RoiClasses.Add(roiwindow.NewRoi);
-                    reloadListRoi();
-                }
+                if (Project.RoiClasses == null) Project.RoiClasses = [];
+                Project.RoiClasses.Add(roiwindow.NewRoi);
+                ReloadListRoi();
             }
         }
         #endregion
@@ -316,22 +375,23 @@ namespace VisionSystemAmetek.TrainForm
         //    return image;
         //}
 
-        private void buttonAddProcessImage_Click(object sender, EventArgs e)
+        private void ButtonAddProcessImage_Click(object sender, EventArgs e)
         {
-            using (FiltersForm filters = new FiltersForm(OriginalImage))
+            using FiltersForm filters = new(OriginalImage);
+            filters.ShowDialog();
+            if (filters.Success)
             {
-                filters.ShowDialog();
                 Project.ProcessImages.Add(filters.processImage);
-                reloadListProcess();
+                ReloadListProcess();
             }
         }
 
-        private void buttonDeleteProcessImage_Click(object sender, EventArgs e)
+        private void ButtonDeleteProcessImage_Click(object sender, EventArgs e)
         {
             if (listBoxProcessImage.Text != string.Empty)
             {
                 Project.ProcessImages.RemoveAll(x => x.Name == listBoxProcessImage.Text);
-                reloadListProcess();
+                ReloadListProcess();
             }
         }
 
@@ -339,10 +399,10 @@ namespace VisionSystemAmetek.TrainForm
 
         #endregion
 
-        private void buttonProcess_Click(object sender, EventArgs e)
+        private void ButtonProcess_Click(object sender, EventArgs e)
         {
             ProcessImage = OriginalImage;
-            foreach (var d in Project.ProcessImages)
+            foreach (ProcessClass d in Project.ProcessImages)
             {
                 ProcessImageTypes type = (ProcessImageTypes)Enum.Parse(typeof(ProcessImageTypes), d.Type);
                 switch (type)
@@ -352,13 +412,19 @@ namespace VisionSystemAmetek.TrainForm
                         JustProcess = ProcessImage;
                         pictureBoxMain.Image = ProcessImage;
                         break;
+                    case ProcessImageTypes.SmootMedian:
+                        break;
+                    case ProcessImageTypes.Canny:
+                        break;
+                    default:
+                        break;
                 }
             }
         }
 
-        private void listBoxRois_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void ListBoxRois_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            var d = Project.RoiClasses.Where(x => x.Name == listBoxRois.Text).First();
+            RoiClass d = Project.RoiClasses.First(x => x.Name == listBoxRois.Text);
             if (d != null)
             {
                 ProcessImage = VisionClass.DrawRoi(ProcessImage, d.Rectangle, d.Name);
@@ -367,9 +433,9 @@ namespace VisionSystemAmetek.TrainForm
         }
 
         #region TestSteps
-        private void buttonAddTestSteps_Click(object sender, EventArgs e)
+        private void ButtonAddTestSteps_Click(object sender, EventArgs e)
         {
-            using (StepTestWindow stepwidnows = new StepTestWindow(Project, JustProcess))
+            using (StepTestWindow stepwidnows = new(Project, JustProcess))
             {
                 stepwidnows.ShowDialog();
                 if (stepwidnows._success)
@@ -378,24 +444,24 @@ namespace VisionSystemAmetek.TrainForm
                     int i = 0;
                     foreach (Models d in Project.Models)
                     {
-                        if (Project.Models[i].ModelName == _CurrentModel) 
+                        if (Project.Models[i].ModelName == _CurrentModel)
                         {
                             Project.Models[i].TestSteps.Add(stepwidnows.Step);
-                        } 
+                        }
                         i++;
                     }
                 }
             }
-            reloadListSteps();
+            ReloadListSteps();
         }
 
         #endregion
 
         #region Models
 
-        private void buttonModelsAdd_Click(object sender, EventArgs e)
+        private void ButtonModelsAdd_Click(object sender, EventArgs e)
         {
-            using (CreateModel modelWindow = new CreateModel(Project.Models))
+            using (CreateModel modelWindow = new(Project.Models))
             {
                 modelWindow.ShowDialog();
                 if (modelWindow.success)
@@ -403,19 +469,19 @@ namespace VisionSystemAmetek.TrainForm
                     Project.Models.Add(modelWindow.NewModel);
                 }
             }
-            reloadModels();
+            ReloadModels();
         }
 
-        private void buttonModelsDelete_Click(object sender, EventArgs e)
+        private void ButtonModelsDelete_Click(object sender, EventArgs e)
         {
             Project.Models.RemoveAll(x => x.ModelName == comboBoxModels.Text);
-            reloadModels();
+            ReloadModels();
         }
 
-        private void comboBoxModels_SelectedIndexChanged(object sender, EventArgs e)
+        private void ComboBoxModels_SelectedIndexChanged(object sender, EventArgs e)
         {
             _CurrentModel = comboBoxModels.Text;
-            reloadListSteps();
+            ReloadListSteps();
         }
 
         #endregion
@@ -427,5 +493,22 @@ namespace VisionSystemAmetek.TrainForm
         #endregion
 
 
+        private void NumericUpDownCam_ValueChanged(object sender, EventArgs e)
+        {
+            Project.CamNum = (int)numericUpDownCam.Value;
+        }
+
+        private void ButtonSnap_Click(object sender, EventArgs e)
+        {
+            if (_WCap == null)
+            {
+                return;
+            }
+            OriginalImage = _WCap.Snap();
+            _WCap.StopCapture();
+            buttonLoadCapture.Text = "Live";
+            buttonRoiAdd.Show();
+            buttonSnap.Hide();
+        }
     }
 }

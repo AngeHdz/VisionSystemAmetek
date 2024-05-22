@@ -291,7 +291,7 @@
             listViewImage.Size = new Size(153, 415);
             listViewImage.TabIndex = 0;
             listViewImage.UseCompatibleStateImageBehavior = false;
-            listViewImage.MouseClick += listViewImage_MouseClick;
+            listViewImage.MouseClick += ListViewImage_MouseClick;
             // 
             // tabPage3
             // 
@@ -345,7 +345,7 @@
             buttonTrain.TabIndex = 1;
             buttonTrain.Text = "Train";
             buttonTrain.UseVisualStyleBackColor = true;
-            buttonTrain.Click += buttonTrain_Click;
+            buttonTrain.Click += ButtonTrain_Click;
             // 
             // listBoxLog
             // 
@@ -428,7 +428,7 @@
             buttonTest.TabIndex = 0;
             buttonTest.Text = "Test";
             buttonTest.UseVisualStyleBackColor = false;
-            buttonTest.Click += buttonTest_Click;
+            buttonTest.Click += ButtonTest_Click;
             // 
             // tabPage2
             // 
@@ -540,7 +540,7 @@
             buttonNewproject.TabIndex = 1;
             buttonNewproject.Text = "New";
             buttonNewproject.UseVisualStyleBackColor = true;
-            buttonNewproject.Click += buttonNewproject_Click;
+            buttonNewproject.Click += ButtonNewproject_Click;
             // 
             // VIsionSystem
             // 

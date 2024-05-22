@@ -1,24 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using VisionSystemConfigFile;
+﻿using VisionSystemConfigFile;
 
 namespace VisionSystemAmetek.TrainForm
 {
     public partial class CreateROI : Form
     {
-        Rectangle rect;
-        Point StartROI, EndROI;
-        bool selecting, MouseDown;
+        private Rectangle rect;
+        private Point StartROI, EndROI;
+        //private bool selecting;
+        private bool MouseDown;
         public bool Success;
-        List<string> CurrentRoiNames = new List<string>();
-        public RoiClass NewRoi =  null;
+        private List<string> CurrentRoiNames = new List<string>();
+        public RoiClass NewRoi = null;
 
         public CreateROI(Bitmap image, string[] currentRoiNames)
         {
@@ -26,15 +18,15 @@ namespace VisionSystemAmetek.TrainForm
             rect = Rectangle.Empty;
             pictureBox.Image = image;
             panelMain.Hide();
-            CurrentRoiNames = currentRoiNames.ToList<string>();
+            CurrentRoiNames = [.. currentRoiNames];
             buttonSave.Hide();
         }
 
-        private void buttonValid_Click(object sender, EventArgs e)
+        private void ButtonValid_Click(object sender, EventArgs e)
         {
-            if(string.IsNullOrEmpty(textBoxName.Text)) 
+            if (string.IsNullOrEmpty(textBoxName.Text))
             {
-                MessageBox.Show( "ROI name cannot be empty", "Create ROI", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("ROI name cannot be empty", "Create ROI", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             if (!CurrentRoiNames.Contains(textBoxName.Text))
@@ -42,17 +34,20 @@ namespace VisionSystemAmetek.TrainForm
                 textBoxName.Enabled = false;
                 panelMain.Show();
             }
-            else MessageBox.Show("Type another name", "Create ROI", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            else
+            {
+                MessageBox.Show("Type another name", "Create ROI", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-        private void pictureBox_MouseDown(object sender, MouseEventArgs e)
+        private void PictureBox_MouseDown(object sender, MouseEventArgs e)
         {
             MouseDown = true;
             StartROI = e.Location;
             buttonSave.Hide();
         }
 
-        private void pictureBox_MouseMove(object sender, MouseEventArgs e)
+        private void PictureBox_MouseMove(object sender, MouseEventArgs e)
         {
 
             if (MouseDown)
@@ -68,18 +63,15 @@ namespace VisionSystemAmetek.TrainForm
             }
         }
 
-        private void pictureBox_Paint(object sender, PaintEventArgs e)
+        private void PictureBox_Paint(object sender, PaintEventArgs e)
         {
             if (MouseDown)
             {
-                using (Pen pen = new Pen(Color.Green, 3))
-                {
-                    e.Graphics.DrawRectangle(pen, rect);
-                }
+                e.Graphics.DrawRectangle(new(Color.Green, 3), rect);
             }
         }
 
-        private void pictureBox_MouseUp(object sender, MouseEventArgs e)
+        private void PictureBox_MouseUp(object sender, MouseEventArgs e)
         {
             if (MouseDown)
             {
@@ -88,17 +80,17 @@ namespace VisionSystemAmetek.TrainForm
             }
         }
 
-        private void buttonCancel_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
 
-        private void buttonSave_Click(object sender, EventArgs e)
+        private void ButtonSave_Click(object sender, EventArgs e)
         {
             NewRoi = new RoiClass(textBoxName.Text, rect);
             Success = true;
-            
-            this.Close();
+            Close();
+        }
+
+        private void ButtonCancel_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

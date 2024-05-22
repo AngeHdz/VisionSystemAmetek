@@ -29,7 +29,7 @@ namespace VisionSystemAmetek
         private ProjectConfig _CurrentTestProject;
         private string _CurrentModel = string.Empty;
         private bool PanelButton = false;
-        Engine _engine = new Engine();
+        Engine _engine;
 
 
         #endregion
@@ -39,10 +39,10 @@ namespace VisionSystemAmetek
         {
             InitializeComponent();
             setReportColumns();
-            telltale = new EmguClass.TellTale();
-            telltale.OnReport += Telltale_OnReport;
-            telltale.OnFinish += Telltale_OnFinish;
-            telltale.OnReportImage += Telltale_OnReportImage;
+            //telltale = new EmguClass.TellTale();
+            //telltale.OnReport += Telltale_OnReport;
+            //telltale.OnFinish += Telltale_OnFinish;
+            //telltale.OnReportImage += Telltale_OnReportImage;
             imagelist = new ImageList();
             imagelist.ImageSize = new Size(100, 100);
             listViewImage.LargeImageList = imagelist;
@@ -50,7 +50,7 @@ namespace VisionSystemAmetek
             model = new MLModel();
             model.mlContext.Log += MlContext_Log;
             dataGridViewReport.CellFormatting += DataGridViewReport_CellFormatting;
-            telltale.OnReportTime += Telltale_OnReportTime;
+            //telltale.OnReportTime += Telltale_OnReportTime;
             buttonCancel.Hide();
             buttonSave.Hide();
             panelbutton.Show();
@@ -68,7 +68,68 @@ namespace VisionSystemAmetek
             });
         }
 
+        public void ReloadEngine() 
+        {
+            _engine = new(_CurrentTestProject, _CurrentModel);
+            _engine.OnFinish += Engine_OnFinish;
+            _engine.OnReport += Engine_OnReport;
+            _engine.OnReportImage += _engine_OnReportImage;
+            _engine.OnReportTime += _engine_OnReportTime;
+        }
 
+        private void _engine_OnReportTime(object? sender, EmguClass.Args.TimerEventArgs e)
+        {
+            this.Invoke((Action)delegate
+            {
+                labelTime.Text = e.time;
+            });
+        }
+
+        private void _engine_OnReportImage(object? sender, EmguClass.Args.ImageEventArgs e)
+        {
+            this.Invoke((Action)delegate
+            {
+                AddImage(e.label, e.Image);
+            });
+        }
+
+        private void Engine_OnReport(object? sender, EmguClass.Args.ProcessEventArgs e)
+        {
+            if (dataGridViewReport.InvokeRequired)
+            {
+                Invoke(delegate
+                {
+                    dataGridViewReport.SuspendLayout();
+                    dataGridViewReport.Rows.Add(e._result.ResultInfo());
+                    dataGridViewReport.Rows[^1].Selected = true;
+                    dataGridViewReport.FirstDisplayedScrollingRowIndex = dataGridViewReport.Rows.Count - 1;
+                    dataGridViewReport.ResumeLayout();
+                });
+            }
+            else
+            {
+                dataGridViewReport.Rows.Add(e._result.ResultInfo());
+                dataGridViewReport.Rows[^1].Selected = true;
+                dataGridViewReport.FirstDisplayedScrollingRowIndex = dataGridViewReport.Rows.Count - 1;
+            }
+        }
+
+        private void Engine_OnFinish(object? sender, EmguClass.Args.ProcessOnFinishEventArgs e)
+        {
+            this.Invoke((Action)delegate
+            {
+                switch (e.ResultType)
+                {
+                    case EmguClass.Results.ResultType.Pass:
+                        Pass();
+                        break;
+                    case EmguClass.Results.ResultType.Fail:
+                        Fail();
+                        break;
+                }
+                Onfinish();
+            });
+        }
 
         #endregion
 
@@ -99,6 +160,8 @@ namespace VisionSystemAmetek
 
         private void Clear()
         {
+            if (pictureBoxMain.Image != null) pictureBoxMain.Image.Dispose();
+            listViewImage.Items.Clear();
             dataGridViewReport.Rows.Clear();
             labelStatus.Text = string.Empty;
             labelStatus.ForeColor = Color.Black;
@@ -161,7 +224,8 @@ namespace VisionSystemAmetek
 
             dataGridViewReport.BackgroundColor = Color.White;
             dataGridViewReport.ReadOnly = true;
-            dataGridViewReport.DefaultCellStyle.SelectionBackColor = Color.Gray;
+            dataGridViewReport.DefaultCellStyle.SelectionBackColor = Color.Transparent;
+            dataGridViewReport.DefaultCellStyle.SelectionForeColor = Color.Black;
 
             dataGridViewReport.DefaultCellStyle.BackColor = Color.White;
             dataGridViewReport.DefaultCellStyle.ForeColor = Color.Black;
@@ -178,7 +242,7 @@ namespace VisionSystemAmetek
         }
         private void Telltale_OnReport(object? sender, EmguClass.Args.ProcessEventArgs e)
         {
-            this.Invoke((Action)delegate
+            Invoke(delegate
             {
                 dataGridViewReport.Rows.Add(e._result.ResultInfo());
             });
@@ -187,11 +251,11 @@ namespace VisionSystemAmetek
         #endregion
 
         #region Test
-        private void buttonTest_Click(object sender, EventArgs e)
+        private void ButtonTest_Click(object sender, EventArgs e)
         {
             Clear();
-            telltale.AsyncProcess(SnapPath, ColorType.ambar, TestType.Hvac_Buttons, PatternPath);
-            listViewImage.Items.Clear();
+            //telltale.AsyncProcess(SnapPath, ColorType.ambar, TestType.Hvac_Buttons, PatternPath);
+            _engine.RunAsyncProcess();
             OnStart();
         }
 
@@ -207,7 +271,7 @@ namespace VisionSystemAmetek
                 listBoxLog.TopIndex = listBoxLog.Items.Count - 1;
             });
         }
-        private void buttonTrain_Click(object sender, EventArgs e)
+        private void ButtonTrain_Click(object sender, EventArgs e)
         {
             model.Training();
             model = new MLModel();
@@ -217,6 +281,7 @@ namespace VisionSystemAmetek
         #region ListView
         private void AddImage(string title, Bitmap image)
         {
+            if (image == null) return;
             int index = imagelist.Images.Count;
             imagelist.Images.Add(image);
             ListViewItem item = new ListViewItem(title, index);
@@ -225,7 +290,7 @@ namespace VisionSystemAmetek
             pictureBoxMain.Image = image;
         }
 
-        private void listViewImage_MouseClick(object sender, MouseEventArgs e)
+        private void ListViewImage_MouseClick(object sender, MouseEventArgs e)
         {
             ListView listView = (ListView)sender;
 
@@ -249,7 +314,7 @@ namespace VisionSystemAmetek
         #endregion
 
         #region CreateAModel
-        private void buttonNewproject_Click(object sender, EventArgs e)
+        private void ButtonNewproject_Click(object sender, EventArgs e)
         {
             using (NewModel d = new NewModel())
             {
@@ -278,7 +343,7 @@ namespace VisionSystemAmetek
             var fileContent = string.Empty;
             var filePath = string.Empty;
 
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            using (OpenFileDialog openFileDialog = new())
             {
                 openFileDialog.InitialDirectory = "C:\\MLProyects";
                 openFileDialog.Filter = "json files (*.json)|*.json";
@@ -383,6 +448,7 @@ namespace VisionSystemAmetek
             if (!string.IsNullOrEmpty(_CurrentModel))
             {
                 buttonTest.Enabled = true;
+                ReloadEngine();
             }
             else 
             {

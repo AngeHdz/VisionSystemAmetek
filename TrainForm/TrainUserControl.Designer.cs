@@ -56,6 +56,8 @@
             buttonProcess = new Button();
             listBoxProcessImage = new ListBox();
             groupBoxCapture = new GroupBox();
+            buttonSnap = new Button();
+            numericUpDownCam = new NumericUpDown();
             buttonReload = new Button();
             buttonLoadCapture = new Button();
             label1 = new Label();
@@ -74,6 +76,7 @@
             tabPage3.SuspendLayout();
             tabPage4.SuspendLayout();
             groupBoxCapture.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownCam).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxMain).BeginInit();
             SuspendLayout();
             // 
@@ -146,7 +149,7 @@
             buttonRoiDelete.TabIndex = 4;
             buttonRoiDelete.Text = "Delete";
             buttonRoiDelete.UseVisualStyleBackColor = true;
-            buttonRoiDelete.Click += buttonRoiDelete_Click;
+            buttonRoiDelete.Click += ButtonRoiDelete_Click;
             // 
             // buttonRoiAdd
             // 
@@ -157,7 +160,7 @@
             buttonRoiAdd.TabIndex = 3;
             buttonRoiAdd.Text = "Add";
             buttonRoiAdd.UseVisualStyleBackColor = true;
-            buttonRoiAdd.Click += buttonRoiAdd_Click;
+            buttonRoiAdd.Click += ButtonRoiAdd_Click;
             // 
             // listBoxRois
             // 
@@ -168,7 +171,7 @@
             listBoxRois.Name = "listBoxRois";
             listBoxRois.Size = new Size(128, 92);
             listBoxRois.TabIndex = 2;
-            listBoxRois.MouseDoubleClick += listBoxRois_MouseDoubleClick;
+            listBoxRois.MouseDoubleClick += ListBoxRois_MouseDoubleClick;
             // 
             // tabPage2
             // 
@@ -201,7 +204,7 @@
             buttonDeleteCategori.TabIndex = 3;
             buttonDeleteCategori.Text = "Delete";
             buttonDeleteCategori.UseVisualStyleBackColor = true;
-            buttonDeleteCategori.Click += buttonDeleteCategori_Click;
+            buttonDeleteCategori.Click += ButtonDeleteCategori_Click;
             // 
             // buttonAddCategori
             // 
@@ -212,7 +215,7 @@
             buttonAddCategori.TabIndex = 2;
             buttonAddCategori.Text = "Add";
             buttonAddCategori.UseVisualStyleBackColor = true;
-            buttonAddCategori.Click += buttonAddCategori_Click;
+            buttonAddCategori.Click += ButtonAddCategori_Click;
             // 
             // listBoxCat
             // 
@@ -223,7 +226,7 @@
             listBoxCat.Name = "listBoxCat";
             listBoxCat.Size = new Size(128, 92);
             listBoxCat.TabIndex = 1;
-            listBoxCat.MouseDoubleClick += listBoxCat_DoubleClick;
+            listBoxCat.MouseDoubleClick += ListBoxCat_DoubleClick;
             // 
             // groupBoxTest
             // 
@@ -246,7 +249,7 @@
             buttonAddTestSteps.TabIndex = 4;
             buttonAddTestSteps.Text = "Add";
             buttonAddTestSteps.UseVisualStyleBackColor = true;
-            buttonAddTestSteps.Click += buttonAddTestSteps_Click;
+            buttonAddTestSteps.Click += ButtonAddTestSteps_Click;
             // 
             // listBoxTestSteps
             // 
@@ -299,7 +302,7 @@
             buttonModelsDelete.TabIndex = 2;
             buttonModelsDelete.Text = "Delete";
             buttonModelsDelete.UseVisualStyleBackColor = true;
-            buttonModelsDelete.Click += buttonModelsDelete_Click;
+            buttonModelsDelete.Click += ButtonModelsDelete_Click;
             // 
             // buttonModelsAdd
             // 
@@ -309,7 +312,7 @@
             buttonModelsAdd.TabIndex = 1;
             buttonModelsAdd.Text = "Add";
             buttonModelsAdd.UseVisualStyleBackColor = true;
-            buttonModelsAdd.Click += buttonModelsAdd_Click;
+            buttonModelsAdd.Click += ButtonModelsAdd_Click;
             // 
             // comboBoxModels
             // 
@@ -319,7 +322,7 @@
             comboBoxModels.Name = "comboBoxModels";
             comboBoxModels.Size = new Size(191, 23);
             comboBoxModels.TabIndex = 0;
-            comboBoxModels.SelectedIndexChanged += comboBoxModels_SelectedIndexChanged;
+            comboBoxModels.SelectedIndexChanged += ComboBoxModels_SelectedIndexChanged;
             // 
             // tabPage4
             // 
@@ -344,7 +347,7 @@
             buttonDeleteProcessImage.TabIndex = 9;
             buttonDeleteProcessImage.Text = "Delete";
             buttonDeleteProcessImage.UseVisualStyleBackColor = true;
-            buttonDeleteProcessImage.Click += buttonDeleteProcessImage_Click;
+            buttonDeleteProcessImage.Click += ButtonDeleteProcessImage_Click;
             // 
             // buttonAddProcessImage
             // 
@@ -355,7 +358,7 @@
             buttonAddProcessImage.TabIndex = 8;
             buttonAddProcessImage.Text = "Add";
             buttonAddProcessImage.UseVisualStyleBackColor = true;
-            buttonAddProcessImage.Click += buttonAddProcessImage_Click;
+            buttonAddProcessImage.Click += ButtonAddProcessImage_Click;
             // 
             // buttonProcess
             // 
@@ -366,7 +369,7 @@
             buttonProcess.TabIndex = 7;
             buttonProcess.Text = "Process";
             buttonProcess.UseVisualStyleBackColor = true;
-            buttonProcess.Click += buttonProcess_Click;
+            buttonProcess.Click += ButtonProcess_Click;
             // 
             // listBoxProcessImage
             // 
@@ -380,6 +383,8 @@
             // 
             // groupBoxCapture
             // 
+            groupBoxCapture.Controls.Add(buttonSnap);
+            groupBoxCapture.Controls.Add(numericUpDownCam);
             groupBoxCapture.Controls.Add(buttonReload);
             groupBoxCapture.Controls.Add(buttonLoadCapture);
             groupBoxCapture.Controls.Add(label1);
@@ -392,6 +397,25 @@
             groupBoxCapture.TabStop = false;
             groupBoxCapture.Text = "Captura";
             // 
+            // buttonSnap
+            // 
+            buttonSnap.Location = new Point(163, 51);
+            buttonSnap.Name = "buttonSnap";
+            buttonSnap.Size = new Size(42, 24);
+            buttonSnap.TabIndex = 5;
+            buttonSnap.Text = "snap";
+            buttonSnap.UseVisualStyleBackColor = true;
+            buttonSnap.Click += ButtonSnap_Click;
+            // 
+            // numericUpDownCam
+            // 
+            numericUpDownCam.Location = new Point(99, 51);
+            numericUpDownCam.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
+            numericUpDownCam.Name = "numericUpDownCam";
+            numericUpDownCam.Size = new Size(49, 23);
+            numericUpDownCam.TabIndex = 4;
+            numericUpDownCam.ValueChanged += NumericUpDownCam_ValueChanged;
+            // 
             // buttonReload
             // 
             buttonReload.Location = new Point(126, 52);
@@ -400,7 +424,7 @@
             buttonReload.TabIndex = 3;
             buttonReload.Text = "Reload";
             buttonReload.UseVisualStyleBackColor = true;
-            buttonReload.Click += buttonReload_Click;
+            buttonReload.Click += ButtonReload_Click;
             // 
             // buttonLoadCapture
             // 
@@ -410,7 +434,7 @@
             buttonLoadCapture.TabIndex = 2;
             buttonLoadCapture.Text = "button1";
             buttonLoadCapture.UseVisualStyleBackColor = true;
-            buttonLoadCapture.Click += buttonLoadCapture_Click;
+            buttonLoadCapture.Click += ButtonLoadCapture_Click;
             // 
             // label1
             // 
@@ -428,7 +452,7 @@
             comboBoxCaptureType.Name = "comboBoxCaptureType";
             comboBoxCaptureType.Size = new Size(121, 23);
             comboBoxCaptureType.TabIndex = 0;
-            comboBoxCaptureType.SelectedValueChanged += comboBoxCaptureType_SelectedValueChanged;
+            comboBoxCaptureType.SelectedValueChanged += ComboBoxCaptureType_SelectedValueChanged;
             // 
             // pictureBoxMain
             // 
@@ -462,6 +486,7 @@
             tabPage4.ResumeLayout(false);
             groupBoxCapture.ResumeLayout(false);
             groupBoxCapture.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownCam).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxMain).EndInit();
             ResumeLayout(false);
         }
@@ -501,5 +526,7 @@
         private ComboBox comboBoxModels;
         private Button buttonModelsDelete;
         private Button buttonModelsAdd;
+        private NumericUpDown numericUpDownCam;
+        private Button buttonSnap;
     }
 }

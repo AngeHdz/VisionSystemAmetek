@@ -49,7 +49,7 @@
             textBoxModelName.Name = "textBoxModelName";
             textBoxModelName.Size = new Size(475, 47);
             textBoxModelName.TabIndex = 1;
-            textBoxModelName.KeyPress += textBoxModelName_KeyPress;
+            textBoxModelName.KeyPress += TextBoxModelName_KeyPress;
             // 
             // buttonCreate
             // 

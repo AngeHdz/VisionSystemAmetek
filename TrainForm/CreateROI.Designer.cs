@@ -53,10 +53,10 @@
             pictureBox.SizeMode = PictureBoxSizeMode.AutoSize;
             pictureBox.TabIndex = 0;
             pictureBox.TabStop = false;
-            pictureBox.Paint += pictureBox_Paint;
-            pictureBox.MouseDown += pictureBox_MouseDown;
-            pictureBox.MouseMove += pictureBox_MouseMove;
-            pictureBox.MouseUp += pictureBox_MouseUp;
+            pictureBox.Paint += PictureBox_Paint;
+            pictureBox.MouseDown += PictureBox_MouseDown;
+            pictureBox.MouseMove += PictureBox_MouseMove;
+            pictureBox.MouseUp += PictureBox_MouseUp;
             // 
             // panel2
             // 
@@ -77,7 +77,7 @@
             buttonValid.TabIndex = 2;
             buttonValid.Text = "Validate";
             buttonValid.UseVisualStyleBackColor = true;
-            buttonValid.Click += buttonValid_Click;
+            buttonValid.Click += ButtonValid_Click;
             // 
             // panel3
             // 
@@ -127,7 +127,7 @@
             buttonCancel.TabIndex = 1;
             buttonCancel.Text = "Cancel";
             buttonCancel.UseVisualStyleBackColor = true;
-            buttonCancel.Click += buttonCancel_Click;
+            buttonCancel.Click += ButtonCancel_Click;
             // 
             // buttonSave
             // 
@@ -138,7 +138,7 @@
             buttonSave.TabIndex = 0;
             buttonSave.Text = "Save";
             buttonSave.UseVisualStyleBackColor = true;
-            buttonSave.Click += buttonSave_Click;
+            buttonSave.Click += ButtonSave_Click;
             // 
             // panelMain
             // 

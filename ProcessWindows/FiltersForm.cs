@@ -1,15 +1,6 @@
 ﻿
 using EmguClass.Resources;
 using EmguClass.Resources.Setting.Interface;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using VisionSystemAmetek.ProcessWindows.UserForm;
 using VisionSystemConfigFile;
 
@@ -23,6 +14,7 @@ namespace VisionSystemAmetek.ProcessWindows
         SmoothMedianSet smoothMedianSet;
         ISettings Data;
         public ProcessClass processImage;
+        public bool Success = false;
         public FiltersForm(Bitmap image)
         {
             InitializeComponent();
@@ -41,7 +33,7 @@ namespace VisionSystemAmetek.ProcessWindows
         private void SmoothMedianSet_UpdaData(object? sender, UserArgs e)
         {
             Data = e._Data;
-            SmoothMedian sm = new SmoothMedian("", Data);
+            SmoothMedian sm = new("", Data);
             Imageprocessed = sm.execute(Image);
             pictureBoxProcessed.Image = Imageprocessed;
         }
@@ -57,6 +49,10 @@ namespace VisionSystemAmetek.ProcessWindows
                 case ProcessImageTypes.Canny:
                     SmootMedian();
                     break;
+                case ProcessImageTypes.Led_Ambar:
+                    break;
+                default:
+                    break;
             }
 
 
@@ -64,7 +60,7 @@ namespace VisionSystemAmetek.ProcessWindows
 
         private void SmootMedian()
         {
-            if (smoothMedianSet != null) smoothMedianSet.Show();
+            smoothMedianSet?.Show();
         }
 
         private void canny()
@@ -80,12 +76,13 @@ namespace VisionSystemAmetek.ProcessWindows
                 return;
             }
             processImage = new ProcessClass(textBoxName.Text, comboBoxFilters.Text);
-            this.Close();
+            Success = true;
+            Close();
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
     }
 }
