@@ -1,9 +1,5 @@
 ﻿using EmguClass.Resources.Setting.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace VisionSystemAmetek.ProcessWindows.UserForm
 {
@@ -11,7 +7,7 @@ namespace VisionSystemAmetek.ProcessWindows.UserForm
     {
         public ISettings _Data;
 
-        public UserArgs(ISettings Data) 
+        public UserArgs(ISettings Data)
         {
             _Data = Data;
         }

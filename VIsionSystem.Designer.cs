@@ -211,11 +211,11 @@
             // tabPage5
             // 
             tabPage5.Controls.Add(dataGridViewReport);
-            tabPage5.Location = new Point(4, 24);
+            tabPage5.Location = new Point(4, 26);
             tabPage5.Margin = new Padding(3, 2, 3, 2);
             tabPage5.Name = "tabPage5";
             tabPage5.Padding = new Padding(3, 2, 3, 2);
-            tabPage5.Size = new Size(902, 312);
+            tabPage5.Size = new Size(902, 310);
             tabPage5.TabIndex = 1;
             tabPage5.Text = "Report";
             tabPage5.UseVisualStyleBackColor = true;
@@ -229,7 +229,7 @@
             dataGridViewReport.Name = "dataGridViewReport";
             dataGridViewReport.RowHeadersVisible = false;
             dataGridViewReport.RowHeadersWidth = 51;
-            dataGridViewReport.Size = new Size(896, 308);
+            dataGridViewReport.Size = new Size(896, 306);
             dataGridViewReport.TabIndex = 1;
             // 
             // panel7
@@ -398,7 +398,7 @@
             comboBoxModels.Name = "comboBoxModels";
             comboBoxModels.Size = new Size(298, 38);
             comboBoxModels.TabIndex = 0;
-            comboBoxModels.SelectedIndexChanged += comboBoxModels_SelectedIndexChanged;
+            comboBoxModels.SelectedIndexChanged += ComboBoxModels_SelectedIndexChanged;
             // 
             // buttonOpenProject
             // 
@@ -413,7 +413,7 @@
             buttonOpenProject.TabIndex = 1;
             buttonOpenProject.Text = "OpenProject";
             buttonOpenProject.UseVisualStyleBackColor = false;
-            buttonOpenProject.Click += buttonOpenProject_Click;
+            buttonOpenProject.Click += ButtonOpenProject_Click;
             // 
             // buttonTest
             // 
@@ -479,7 +479,7 @@
             buttonHide.Size = new Size(20, 28);
             buttonHide.TabIndex = 1;
             buttonHide.UseVisualStyleBackColor = true;
-            buttonHide.Click += buttonHide_Click;
+            buttonHide.Click += ButtonHide_Click;
             // 
             // panelbutton
             // 
@@ -504,7 +504,7 @@
             buttonSave.TabIndex = 4;
             buttonSave.Text = "Save";
             buttonSave.UseVisualStyleBackColor = true;
-            buttonSave.Click += buttonSave_Click;
+            buttonSave.Click += ButtonSave_Click;
             // 
             // buttonCancel
             // 
@@ -516,7 +516,7 @@
             buttonCancel.TabIndex = 3;
             buttonCancel.Text = "Cancel";
             buttonCancel.UseVisualStyleBackColor = true;
-            buttonCancel.Click += buttonCancel_Click;
+            buttonCancel.Click += ButtonCancel_Click;
             // 
             // buttonLoad
             // 
@@ -528,7 +528,7 @@
             buttonLoad.TabIndex = 2;
             buttonLoad.Text = "Load";
             buttonLoad.UseVisualStyleBackColor = true;
-            buttonLoad.Click += buttonLoad_Click;
+            buttonLoad.Click += ButtonLoad_Click;
             // 
             // buttonNewproject
             // 
@@ -548,6 +548,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1091, 523);
             Controls.Add(tabControl1);
+            DoubleBuffered = true;
             Name = "VIsionSystem";
             Text = "Form1";
             tabControl1.ResumeLayout(false);

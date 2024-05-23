@@ -14,7 +14,8 @@ namespace VisionSystemAmetek.ProcessWindows
         SmoothMedianSet smoothMedianSet;
         ISettings Data;
         public ProcessClass processImage;
-        public bool Success = false;
+        public bool Success;
+        private bool isSyncing;
         public FiltersForm(Bitmap image)
         {
             InitializeComponent();
@@ -28,7 +29,11 @@ namespace VisionSystemAmetek.ProcessWindows
             smoothMedianSet.Hide();
             smoothMedianSet.Dock = DockStyle.Fill;
             panelTool.Controls.Add(smoothMedianSet);
+
+            panelOriginal.MouseWheel += PanelOriginal_MouseWheel;
+            panelProcessed.MouseWheel += PanelProcessed_MouseWheel;
         }
+
 
         private void SmoothMedianSet_UpdaData(object? sender, UserArgs e)
         {
@@ -36,9 +41,10 @@ namespace VisionSystemAmetek.ProcessWindows
             SmoothMedian sm = new("", Data);
             Imageprocessed = sm.execute(Image);
             pictureBoxProcessed.Image = Imageprocessed;
+            SynchronizeScroll(panelOriginal, panelProcessed);
         }
 
-        private void comboBoxFilters_SelectedIndexChanged(object sender, EventArgs e)
+        private void ComboBoxFilters_SelectedIndexChanged(object sender, EventArgs e)
         {
             type = (ProcessImageTypes)Enum.Parse(typeof(ProcessImageTypes), comboBoxFilters.Text);
             switch (type)
@@ -47,7 +53,7 @@ namespace VisionSystemAmetek.ProcessWindows
                     SmootMedian();
                     break;
                 case ProcessImageTypes.Canny:
-                    SmootMedian();
+                    Canny();
                     break;
                 case ProcessImageTypes.Led_Ambar:
                     break;
@@ -63,12 +69,12 @@ namespace VisionSystemAmetek.ProcessWindows
             smoothMedianSet?.Show();
         }
 
-        private void canny()
+        private void Canny()
         {
             smoothMedianSet.Hide();
         }
 
-        private void buttonAccept_Click(object sender, EventArgs e)
+        private void ButtonAccept_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(textBoxName.Text))
             {
@@ -80,9 +86,60 @@ namespace VisionSystemAmetek.ProcessWindows
             Close();
         }
 
-        private void buttonCancel_Click(object sender, EventArgs e)
+        private void ButtonCancel_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void PanelOriginal_Scroll(object sender, ScrollEventArgs e)
+        {
+            if (!isSyncing)
+            {
+                isSyncing = true;
+                SynchronizeScroll(panelOriginal, panelProcessed);
+                isSyncing = false;
+            }
+        }
+
+        private void PanelProcessed_Scroll(object sender, ScrollEventArgs e)
+        {
+            if (!isSyncing)
+            {
+                isSyncing = true;
+                SynchronizeScroll(panelProcessed, panelOriginal);
+                isSyncing = false;
+            }
+        }
+
+
+        private void PanelProcessed_MouseWheel(object? sender, MouseEventArgs e)
+        {
+            if (!isSyncing)
+            {
+                isSyncing = true;
+                SynchronizeScroll(panelProcessed, panelOriginal);
+                isSyncing = false;
+            }
+        }
+
+        private void PanelOriginal_MouseWheel(object? sender, MouseEventArgs e)
+        {
+            if (!isSyncing)
+            {
+                isSyncing = true;
+                SynchronizeScroll(panelOriginal, panelProcessed);
+                isSyncing = false;
+            }
+        }
+
+        private static void SynchronizeScroll(Panel source, Panel target)
+        {
+            // Calcular las posiciones correctas, teniendo en cuenta que AutoScrollPosition devuelve valores negativos
+            int newX = -source.AutoScrollPosition.X;
+            int newY = -source.AutoScrollPosition.Y;
+
+            // Ajustar la posición de desplazamiento del panel de destino
+            target.AutoScrollPosition = new Point(newX, newY);
         }
     }
 }

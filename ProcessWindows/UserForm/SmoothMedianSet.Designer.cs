@@ -48,8 +48,8 @@
             numericUpDownSize.Name = "numericUpDownSize";
             numericUpDownSize.Size = new Size(53, 23);
             numericUpDownSize.TabIndex = 1;
-            numericUpDownSize.Click += numericUpDownSize_Click;
-            numericUpDownSize.KeyUp += numericUpDownSize_KeyUp;
+            numericUpDownSize.Click += NumericUpDownSize_Click;
+            numericUpDownSize.KeyUp += NumericUpDownSize_KeyUp;
             // 
             // SmoothMedian
             // 

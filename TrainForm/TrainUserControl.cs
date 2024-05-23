@@ -214,16 +214,23 @@ namespace VisionSystemAmetek.TrainForm
                 WcapStop();
                 return;
             }
-            buttonSnap.Show();
             if (_WCap == null)
             {
                 _WCap = new WebCapture(Project.CamNum);
                 _WCap.OnCapture += WCap_OnCapture;
+                _WCap.StartCapture();
+                buttonSnap.Show();
+                buttonLoadCapture.Text = "Stop";
+                numericUpDownCam.Enabled = false;
+                comboBoxCaptureType.Enabled = false;
             }
-            buttonLoadCapture.Text = "Stop";
-            _WCap.StartCapture();
-            numericUpDownCam.Enabled = false;
-            comboBoxCaptureType.Enabled = false;
+            if (buttonLoadCapture.Text == "Live")
+            {
+                _WCap.StartCapture();
+                buttonSnap.Show();
+                buttonLoadCapture.Text = "Stop";
+                return;
+            }
         }
 
         private void WcapStop()

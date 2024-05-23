@@ -40,18 +40,18 @@
             label1 = new Label();
             comboBoxFilters = new ComboBox();
             tableLayoutPanel1 = new TableLayoutPanel();
-            panel2 = new Panel();
+            panelOriginal = new Panel();
             pictureBoxOriginal = new PictureBox();
-            panel3 = new Panel();
+            panelProcessed = new Panel();
             pictureBoxProcessed = new PictureBox();
             panel1.SuspendLayout();
             panel90.SuspendLayout();
             panel5.SuspendLayout();
             panel4.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
-            panel2.SuspendLayout();
+            panelOriginal.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxOriginal).BeginInit();
-            panel3.SuspendLayout();
+            panelProcessed.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxProcessed).BeginInit();
             SuspendLayout();
             // 
@@ -101,7 +101,7 @@
             buttonAccept.TabIndex = 1;
             buttonAccept.Text = "Done";
             buttonAccept.UseVisualStyleBackColor = true;
-            buttonAccept.Click += buttonAccept_Click;
+            buttonAccept.Click += ButtonAccept_Click;
             // 
             // buttonCancel
             // 
@@ -111,7 +111,7 @@
             buttonCancel.TabIndex = 0;
             buttonCancel.Text = "Cancel";
             buttonCancel.UseVisualStyleBackColor = true;
-            buttonCancel.Click += buttonCancel_Click;
+            buttonCancel.Click += ButtonCancel_Click;
             // 
             // panel4
             // 
@@ -159,15 +159,15 @@
             comboBoxFilters.Name = "comboBoxFilters";
             comboBoxFilters.Size = new Size(134, 23);
             comboBoxFilters.TabIndex = 0;
-            comboBoxFilters.SelectedIndexChanged += comboBoxFilters_SelectedIndexChanged;
+            comboBoxFilters.SelectedIndexChanged += ComboBoxFilters_SelectedIndexChanged;
             // 
             // tableLayoutPanel1
             // 
             tableLayoutPanel1.ColumnCount = 2;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.Controls.Add(panel2, 0, 0);
-            tableLayoutPanel1.Controls.Add(panel3, 1, 0);
+            tableLayoutPanel1.Controls.Add(panelOriginal, 0, 0);
+            tableLayoutPanel1.Controls.Add(panelProcessed, 1, 0);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(200, 0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -176,15 +176,16 @@
             tableLayoutPanel1.Size = new Size(516, 423);
             tableLayoutPanel1.TabIndex = 1;
             // 
-            // panel2
+            // panelOriginal
             // 
-            panel2.AutoScroll = true;
-            panel2.Controls.Add(pictureBoxOriginal);
-            panel2.Dock = DockStyle.Fill;
-            panel2.Location = new Point(3, 3);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(252, 417);
-            panel2.TabIndex = 0;
+            panelOriginal.AutoScroll = true;
+            panelOriginal.Controls.Add(pictureBoxOriginal);
+            panelOriginal.Dock = DockStyle.Fill;
+            panelOriginal.Location = new Point(3, 3);
+            panelOriginal.Name = "panelOriginal";
+            panelOriginal.Size = new Size(252, 417);
+            panelOriginal.TabIndex = 0;
+            panelOriginal.Scroll += PanelOriginal_Scroll;
             // 
             // pictureBoxOriginal
             // 
@@ -195,15 +196,16 @@
             pictureBoxOriginal.TabIndex = 0;
             pictureBoxOriginal.TabStop = false;
             // 
-            // panel3
+            // panelProcessed
             // 
-            panel3.AutoScroll = true;
-            panel3.Controls.Add(pictureBoxProcessed);
-            panel3.Dock = DockStyle.Fill;
-            panel3.Location = new Point(261, 3);
-            panel3.Name = "panel3";
-            panel3.Size = new Size(252, 417);
-            panel3.TabIndex = 1;
+            panelProcessed.AutoScroll = true;
+            panelProcessed.Controls.Add(pictureBoxProcessed);
+            panelProcessed.Dock = DockStyle.Fill;
+            panelProcessed.Location = new Point(261, 3);
+            panelProcessed.Name = "panelProcessed";
+            panelProcessed.Size = new Size(252, 417);
+            panelProcessed.TabIndex = 1;
+            panelProcessed.Scroll += PanelProcessed_Scroll;
             // 
             // pictureBoxProcessed
             // 
@@ -221,6 +223,7 @@
             ClientSize = new Size(716, 423);
             Controls.Add(tableLayoutPanel1);
             Controls.Add(panel1);
+            DoubleBuffered = true;
             Name = "FiltersForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "FiltersForm";
@@ -230,11 +233,11 @@
             panel4.ResumeLayout(false);
             panel4.PerformLayout();
             tableLayoutPanel1.ResumeLayout(false);
-            panel2.ResumeLayout(false);
-            panel2.PerformLayout();
+            panelOriginal.ResumeLayout(false);
+            panelOriginal.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxOriginal).EndInit();
-            panel3.ResumeLayout(false);
-            panel3.PerformLayout();
+            panelProcessed.ResumeLayout(false);
+            panelProcessed.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxProcessed).EndInit();
             ResumeLayout(false);
         }
@@ -243,9 +246,9 @@
 
         private Panel panel1;
         private TableLayoutPanel tableLayoutPanel1;
-        private Panel panel2;
+        private Panel panelOriginal;
         private PictureBox pictureBoxOriginal;
-        private Panel panel3;
+        private Panel panelProcessed;
         private PictureBox pictureBoxProcessed;
         private Panel panel4;
         private Label label1;

@@ -1,13 +1,6 @@
-using EmguClass;
-using System.Drawing.Text;
-using System.Windows.Forms;
-using EmguClass.Tools;
 using MLClass;
-using EmguClass.Results.Types;
-using NumSharp.Extensions;
 using VisionSystemConfigFile;
 using VisionSystemAmetek.Train.Forms;
-using Emgu.CV.Ocl;
 using VisionSystemAmetek.Runtime;
 
 namespace VisionSystemAmetek
@@ -16,20 +9,14 @@ namespace VisionSystemAmetek
     public partial class VIsionSystem : Form
     {
         #region Variables
-        MLModel model;
-
-        EmguClass.TellTale? telltale = null;
-        private static string SnapPath = @"C:\Ametek_Resources\VisionSystemML\Snap\Capture.bmp";
-        private static string TellTaleModelPath = @"C:\Image\Model\TellTaleModel.mlnet";
-        private static string LastImage = @"C:\Ametek_Resources\VisionSystemML\LastImage\LastImage.bmp";
-        private static string PatternPath = @"C:\Image\Template\";
-        private ImageList imagelist;
-        private List<Bitmap> images = new List<Bitmap>();
-        private ProjectConfig Project;
+        private MLModel model;
+        private readonly ImageList imagelist;
+        private readonly List<Bitmap> images = [];
+        private ProjectConfig? Project;
         private ProjectConfig _CurrentTestProject;
         private string _CurrentModel = string.Empty;
-        private bool PanelButton = false;
-        Engine _engine;
+        private bool PanelButton;
+        private Engine _engine;
 
 
         #endregion
@@ -38,19 +25,15 @@ namespace VisionSystemAmetek
         public VIsionSystem()
         {
             InitializeComponent();
-            setReportColumns();
-            //telltale = new EmguClass.TellTale();
-            //telltale.OnReport += Telltale_OnReport;
-            //telltale.OnFinish += Telltale_OnFinish;
-            //telltale.OnReportImage += Telltale_OnReportImage;
-            imagelist = new ImageList();
-            imagelist.ImageSize = new Size(100, 100);
+            SetReportColumns();
+            imagelist = new ImageList
+            {
+                ImageSize = new Size(100, 100)
+            };
             listViewImage.LargeImageList = imagelist;
-            //labelDesc.Text = string.Empty;
             model = new MLModel();
             model.mlContext.Log += MlContext_Log;
             dataGridViewReport.CellFormatting += DataGridViewReport_CellFormatting;
-            //telltale.OnReportTime += Telltale_OnReportTime;
             buttonCancel.Hide();
             buttonSave.Hide();
             panelbutton.Show();
@@ -62,32 +45,32 @@ namespace VisionSystemAmetek
 
         private void Telltale_OnReportTime(object? sender, EmguClass.Args.TimerEventArgs e)
         {
-            this.Invoke((Action)delegate
+            Invoke(delegate
             {
                 labelTime.Text = e.time;
             });
         }
 
-        public void ReloadEngine() 
+        public void ReloadEngine()
         {
             _engine = new(_CurrentTestProject, _CurrentModel);
             _engine.OnFinish += Engine_OnFinish;
             _engine.OnReport += Engine_OnReport;
-            _engine.OnReportImage += _engine_OnReportImage;
-            _engine.OnReportTime += _engine_OnReportTime;
+            _engine.OnReportImage += Engine_OnReportImage;
+            _engine.OnReportTime += Engine_OnReportTime;
         }
 
-        private void _engine_OnReportTime(object? sender, EmguClass.Args.TimerEventArgs e)
+        private void Engine_OnReportTime(object? sender, EmguClass.Args.TimerEventArgs e)
         {
-            this.Invoke((Action)delegate
+            Invoke(delegate
             {
                 labelTime.Text = e.time;
             });
         }
 
-        private void _engine_OnReportImage(object? sender, EmguClass.Args.ImageEventArgs e)
+        private void Engine_OnReportImage(object? sender, EmguClass.Args.ImageEventArgs e)
         {
-            this.Invoke((Action)delegate
+            Invoke(delegate
             {
                 AddImage(e.label, e.Image);
             });
@@ -116,7 +99,7 @@ namespace VisionSystemAmetek
 
         private void Engine_OnFinish(object? sender, EmguClass.Args.ProcessOnFinishEventArgs e)
         {
-            this.Invoke((Action)delegate
+            Invoke(delegate
             {
                 switch (e.ResultType)
                 {
@@ -125,6 +108,8 @@ namespace VisionSystemAmetek
                         break;
                     case EmguClass.Results.ResultType.Fail:
                         Fail();
+                        break;
+                    default:
                         break;
                 }
                 Onfinish();
@@ -136,14 +121,14 @@ namespace VisionSystemAmetek
         #region Report
         private void Telltale_OnReportImage(object? sender, EmguClass.Args.ImageEventArgs e)
         {
-            this.Invoke((Action)delegate
+            Invoke(delegate
             {
                 AddImage(e.label, e.Image);
             });
         }
         private void Telltale_OnFinish(object? sender, EmguClass.Args.ProcessOnFinishEventArgs e)
         {
-            this.Invoke((Action)delegate
+            Invoke(delegate
             {
                 switch (e.ResultType)
                 {
@@ -153,6 +138,8 @@ namespace VisionSystemAmetek
                     case EmguClass.Results.ResultType.Fail:
                         Fail();
                         break;
+                    default:
+                        break;
                 }
                 Onfinish();
             });
@@ -160,7 +147,7 @@ namespace VisionSystemAmetek
 
         private void Clear()
         {
-            if (pictureBoxMain.Image != null) pictureBoxMain.Image.Dispose();
+            pictureBoxMain.Image?.Dispose();
             listViewImage.Items.Clear();
             dataGridViewReport.Rows.Clear();
             labelStatus.Text = string.Empty;
@@ -205,7 +192,7 @@ namespace VisionSystemAmetek
                 e.CellStyle.ForeColor = Color.White;
             }
         }
-        private void setReportColumns()
+        private void SetReportColumns()
         {
             dataGridViewReport.Columns.Add("ColumnaTexto", "ID");
             dataGridViewReport.Columns.Add("ColumnaTexto", "TestName");
@@ -216,7 +203,7 @@ namespace VisionSystemAmetek
             dataGridViewReport.Columns.Add("ColumnaTexto", "TestType");
             dataGridViewReport.Refresh();
 
-            this.dataGridViewReport.DefaultCellStyle.Font = new Font("Tahoma", 15);
+            dataGridViewReport.DefaultCellStyle.Font = new Font("Tahoma", 15);
             dataGridViewReport.GridColor = Color.White;
             dataGridViewReport.AllowUserToAddRows = false;
             dataGridViewReport.AllowUserToDeleteRows = false;
@@ -254,7 +241,6 @@ namespace VisionSystemAmetek
         private void ButtonTest_Click(object sender, EventArgs e)
         {
             Clear();
-            //telltale.AsyncProcess(SnapPath, ColorType.ambar, TestType.Hvac_Buttons, PatternPath);
             _engine.RunAsyncProcess();
             OnStart();
         }
@@ -265,7 +251,7 @@ namespace VisionSystemAmetek
         #region ML
         private void MlContext_Log(object? sender, Microsoft.ML.LoggingEventArgs e)
         {
-            this.Invoke((Action)delegate
+            Invoke(delegate
             {
                 listBoxLog.Items.Add($"{e.RawMessage}");
                 listBoxLog.TopIndex = listBoxLog.Items.Count - 1;
@@ -281,10 +267,13 @@ namespace VisionSystemAmetek
         #region ListView
         private void AddImage(string title, Bitmap image)
         {
-            if (image == null) return;
+            if (image == null)
+            {
+                return;
+            }
             int index = imagelist.Images.Count;
             imagelist.Images.Add(image);
-            ListViewItem item = new ListViewItem(title, index);
+            ListViewItem item = new(title, index);
             listViewImage.Items.Add(item);
             images.Add(image);
             pictureBoxMain.Image = image;
@@ -316,63 +305,54 @@ namespace VisionSystemAmetek
         #region CreateAModel
         private void ButtonNewproject_Click(object sender, EventArgs e)
         {
-            using (NewModel d = new NewModel())
+            using NewModel d = new();
+            d.ShowDialog();
+            if (d.success)
             {
-                d.ShowDialog();
-                if (d.success)
-                {
-                    Project = d.NewConfig;
+                Project = d.NewConfig;
 
-                    if (Project != null)
-                    {
-                        buttonLoad.Hide();
-                        buttonNewproject.Hide();
-                        buttonCancel.Show();
-                        buttonSave.Show();
-                        trainUserControl1.Show();
-                        trainUserControl1.SetProject(Project);
-                        return;
-                    }
+                if (Project != null)
+                {
+                    buttonLoad.Hide();
+                    buttonNewproject.Hide();
+                    buttonCancel.Show();
+                    buttonSave.Show();
+                    trainUserControl1.Show();
+                    trainUserControl1.SetProject(Project);
+                    return;
                 }
             }
 
         }
 
-        private void buttonLoad_Click(object sender, EventArgs e)
+        private void ButtonLoad_Click(object sender, EventArgs e)
         {
-            var fileContent = string.Empty;
-            var filePath = string.Empty;
+            using OpenFileDialog openFileDialog = new();
+            openFileDialog.InitialDirectory = "C:\\MLProyects";
+            openFileDialog.Filter = "json files (*.json)|*.json";
+            openFileDialog.FilterIndex = 1;
+            openFileDialog.RestoreDirectory = false;
 
-            using (OpenFileDialog openFileDialog = new())
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                openFileDialog.InitialDirectory = "C:\\MLProyects";
-                openFileDialog.Filter = "json files (*.json)|*.json";
-                openFileDialog.FilterIndex = 1;
-                openFileDialog.RestoreDirectory = false;
 
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                Project = ConfigFile.LoadConfig(openFileDialog.FileName);
+
+                if (Project != null)
                 {
-                    //Get the path of specified file
-                    filePath = openFileDialog.FileName;
-
-                    Project = ConfigFile.LoadConfig(filePath);
-
-                    if (Project != null)
-                    {
-                        buttonLoad.Hide();
-                        buttonNewproject.Hide();
-                        buttonCancel.Show();
-                        buttonSave.Show();
-                        trainUserControl1.Show();
-                        trainUserControl1.SetProject(Project);
-                        return;
-                    }
+                    buttonLoad.Hide();
+                    buttonNewproject.Hide();
+                    buttonCancel.Show();
+                    buttonSave.Show();
+                    trainUserControl1.Show();
+                    trainUserControl1.SetProject(Project);
+                    return;
                 }
             }
 
         }
 
-        private void buttonCancel_Click(object sender, EventArgs e)
+        private void ButtonCancel_Click(object sender, EventArgs e)
         {
             buttonLoad.Show();
             buttonNewproject.Show();
@@ -385,7 +365,9 @@ namespace VisionSystemAmetek
 
         #endregion
 
-        private void buttonHide_Click(object sender, EventArgs e)
+        #region ButtonSide
+
+        private void ButtonHide_Click(object sender, EventArgs e)
         {
             if (PanelButton)
             {
@@ -401,37 +383,30 @@ namespace VisionSystemAmetek
             }
         }
 
-        private void buttonSave_Click(object sender, EventArgs e)
+        private void ButtonSave_Click(object sender, EventArgs e)
         {
             ConfigFile.SaveConfig(trainUserControl1.GetProject());
         }
+        #endregion
 
         #region Tester
 
 
-        private void buttonOpenProject_Click(object sender, EventArgs e)
+        private void ButtonOpenProject_Click(object sender, EventArgs e)
         {
-            var fileContent = string.Empty;
-            var filePath = string.Empty;
+            using OpenFileDialog openFileDialog = new();
+            openFileDialog.InitialDirectory = "C:\\MLProyects";
+            openFileDialog.Filter = "json files (*.json)|*.json";
+            openFileDialog.FilterIndex = 1;
+            openFileDialog.RestoreDirectory = false;
 
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                openFileDialog.InitialDirectory = "C:\\MLProyects";
-                openFileDialog.Filter = "json files (*.json)|*.json";
-                openFileDialog.FilterIndex = 1;
-                openFileDialog.RestoreDirectory = false;
+                _CurrentTestProject = ConfigFile.LoadConfig(openFileDialog.FileName);
 
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                if (_CurrentTestProject != null)
                 {
-                    //Get the path of specified file
-                    filePath = openFileDialog.FileName;
-
-                    _CurrentTestProject = ConfigFile.LoadConfig(filePath);
-
-                    if (_CurrentTestProject != null)
-                    {
-                        LoadModels();
-                    }
+                    LoadModels();
                 }
             }
         }
@@ -442,7 +417,7 @@ namespace VisionSystemAmetek
         }
 
 
-        private void comboBoxModels_SelectedIndexChanged(object sender, EventArgs e)
+        private void ComboBoxModels_SelectedIndexChanged(object sender, EventArgs e)
         {
             _CurrentModel = comboBoxModels.Text;
             if (!string.IsNullOrEmpty(_CurrentModel))
@@ -450,7 +425,7 @@ namespace VisionSystemAmetek
                 buttonTest.Enabled = true;
                 ReloadEngine();
             }
-            else 
+            else
             {
                 buttonTest.Enabled = false;
             }
