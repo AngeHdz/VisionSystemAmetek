@@ -1,15 +1,21 @@
-﻿using EmguClass.Resources.Setting.Interface;
+﻿using EmguClass.Resources.Setting;
+using EmguClass.Resources.Setting.Interface;
 
 
 namespace VisionSystemAmetek.ProcessWindows.UserForm
 {
     public class UserArgs : EventArgs
     {
-        public ISettings _Data;
+        //public ISettings _Data;
+        public Settings Settings { get; set; }
 
-        public UserArgs(ISettings Data)
+        //public UserArgs(ISettings Data)
+        //{
+        //    _Data = Data;
+        //}
+        public UserArgs(Settings settings)
         {
-            _Data = Data;
+            Settings = settings;
         }
     }
 }

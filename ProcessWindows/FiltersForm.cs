@@ -1,5 +1,10 @@
 ﻿
+using Emgu.CV;
+using Emgu.CV.Structure;
+using EmguClass;
+using EmguClass.Dictionary;
 using EmguClass.Resources;
+using EmguClass.Resources.Setting;
 using EmguClass.Resources.Setting.Interface;
 using VisionSystemAmetek.ProcessWindows.UserForm;
 using VisionSystemConfigFile;
@@ -10,22 +15,23 @@ namespace VisionSystemAmetek.ProcessWindows
     {
         private Bitmap Image;
         private Bitmap Imageprocessed;
-        ProcessImageTypes type;
+        TypeProcess type;
         SmoothMedianSet smoothMedianSet;
-        ISettings Data;
+        private Settings Data;
         public ProcessClass processImage;
         public bool Success;
         private bool isSyncing;
+        private readonly Settings settings;
         public FiltersForm(Bitmap image)
         {
             InitializeComponent();
 
-            comboBoxFilters.DataSource = new List<string>(Enum.GetNames(typeof(ProcessImageTypes)));
+            comboBoxFilters.DataSource = new List<string>(Enum.GetNames(typeof(TypeProcess)));
             Image = image;
             pictureBoxOriginal.Image = Image;
             pictureBoxProcessed.Image = Image;
             smoothMedianSet = new SmoothMedianSet();
-            smoothMedianSet.UpdaData += SmoothMedianSet_UpdaData;
+            smoothMedianSet.UpdaData += ExecuteProcess;
             smoothMedianSet.Hide();
             smoothMedianSet.Dock = DockStyle.Fill;
             panelTool.Controls.Add(smoothMedianSet);
@@ -35,27 +41,30 @@ namespace VisionSystemAmetek.ProcessWindows
         }
 
 
-        private void SmoothMedianSet_UpdaData(object? sender, UserArgs e)
+        private void ExecuteProcess(object? sender, UserArgs e)
         {
-            Data = e._Data;
-            SmoothMedian sm = new("", Data);
-            Imageprocessed = sm.execute(Image);
+            Data = e.Settings;
+            Imageprocessed = EmguFunctions.GetProcess(Image.ToImage<Bgr, byte>(), Data).ToBitmap();
             pictureBoxProcessed.Image = Imageprocessed;
             SynchronizeScroll(panelOriginal, panelProcessed);
         }
 
         private void ComboBoxFilters_SelectedIndexChanged(object sender, EventArgs e)
         {
-            type = (ProcessImageTypes)Enum.Parse(typeof(ProcessImageTypes), comboBoxFilters.Text);
+            type = (TypeProcess)Enum.Parse(typeof(TypeProcess), comboBoxFilters.Text);
             switch (type)
             {
-                case ProcessImageTypes.SmootMedian:
+                case TypeProcess.SmoothMedian:
                     SmootMedian();
                     break;
-                case ProcessImageTypes.Canny:
+                case TypeProcess.Canny:
                     Canny();
                     break;
-                case ProcessImageTypes.Led_Ambar:
+                case TypeProcess.Led_Ambar:
+                    break;
+                case TypeProcess.None:
+                    break;
+                case TypeProcess.SmoothBlur:
                     break;
                 default:
                     break;
@@ -81,7 +90,7 @@ namespace VisionSystemAmetek.ProcessWindows
                 MessageBox.Show("Error", "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            processImage = new ProcessClass(textBoxName.Text, comboBoxFilters.Text);
+            processImage = new ProcessClass(textBoxName.Text, comboBoxFilters.Text, settings);
             Success = true;
             Close();
         }

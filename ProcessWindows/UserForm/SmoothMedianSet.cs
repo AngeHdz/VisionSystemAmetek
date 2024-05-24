@@ -1,32 +1,58 @@
 ﻿
-using EmguClass.Resources.Setting.SettingsClasses;
+using EmguClass.Resources.Setting;
 
 
 namespace VisionSystemAmetek.ProcessWindows.UserForm
 {
-    public partial class SmoothMedianSet : UserControl
+    public partial class SmoothMedianSet : IUserProcess
     {
-        public event EventHandler<UserArgs> UpdaData;
-        //public ISettings data;
+        private decimal lastSize = 1;
         public SmoothMedianSet()
         {
             InitializeComponent();
-        }
-
-        protected virtual void OnReportReached(UserArgs e)
-        {
-            UpdaData.Invoke(this, e);
+            numericUpDownSize.Minimum = 1;
+            numericUpDownSize.Maximum = 15;
         }
 
         private void NumericUpDownSize_KeyUp(object sender, KeyEventArgs e)
         {
-            OnReportReached(new UserArgs(new SmothMedianSetting((int)numericUpDownSize.Value)));
-
+            if (numericUpDownSize.Value % 2 == 0)
+            {
+                if (lastSize > numericUpDownSize.Value)
+                {
+                    numericUpDownSize.Value -= 1;
+                }
+                if (lastSize < numericUpDownSize.Value)
+                {
+                    numericUpDownSize.Value += 1;
+                }
+                lastSize = numericUpDownSize.Value;
+            }
+            size = (int)numericUpDownSize.Value;
+            Report();
         }
 
         private void NumericUpDownSize_Click(object sender, EventArgs e)
         {
-            OnReportReached(new UserArgs(new SmothMedianSetting((int)numericUpDownSize.Value)));
+            if (numericUpDownSize.Value % 2 == 0)
+            {
+                if (lastSize > numericUpDownSize.Value)
+                {
+                    numericUpDownSize.Value -= 1;
+                }
+                if (lastSize < numericUpDownSize.Value)
+                {
+                    numericUpDownSize.Value += 1;
+                }
+                lastSize = numericUpDownSize.Value;
+            }
+            size = (int)numericUpDownSize.Value;
+            Report();
+        }
+
+        private protected void Report()
+        {
+            OnReportReached(new UserArgs(new Settings() { Size = size, Type = EmguClass.TypeProcess.SmoothMedian }));
         }
     }
 }
