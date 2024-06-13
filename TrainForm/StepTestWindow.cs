@@ -2,21 +2,12 @@
 using Emgu.CV.Structure;
 using EmguClass;
 using MLClass;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Drawing.Text;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using VisionSystemConfigFile;
 
 namespace VisionSystemAmetek.TrainForm
 {
-    enum logType
+    internal enum logType
     {
         Error,
         Status,
@@ -51,9 +42,22 @@ namespace VisionSystemAmetek.TrainForm
         private void LoadModel()
         {
             model = new MLModel();
+            model.OnReport += Model_OnReport;
             model.PathTraining = ProjectConfig.TraiPath;
             model.PathModel = ProjectConfig.ModelPath;
             model.mlContext.Log += MlContext_Log;
+        }
+
+        private void Model_OnReport(object? sender, EventMLStatus e)
+        {
+            PrintStatus(logType.Log, $"{e.Log}");
+            if (e.Log == "Finish Training Model Process")
+            {
+                Invoke(delegate
+                {
+                    buttonTrain.Enabled = true;
+                });
+            }
         }
 
         private void MlContext_Log(object? sender, Microsoft.ML.LoggingEventArgs e)
@@ -89,7 +93,7 @@ namespace VisionSystemAmetek.TrainForm
 
 
 
-        private void buttonSave_Click(object sender, EventArgs e)
+        private void ButtonSave_Click(object sender, EventArgs e)
         {
             Step.Category = comboBoxcat.Text;
             Step.TemplateFile = TemplatePath;
@@ -97,34 +101,49 @@ namespace VisionSystemAmetek.TrainForm
             Step.StepType = type;
             Step.TestStepName = textBoxName.Text;
             _success = true;
-            this.Close();
+            Close();
         }
 
-        private void buttonCancel_Click(object sender, EventArgs e)
+        private void ButtonCancel_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
-        private void comboBoxRoi_SelectedIndexChanged(object sender, EventArgs e)
+        private void ComboBoxRoi_SelectedIndexChanged(object sender, EventArgs e)
         {
-            updateTextboxName();
-            if (loading) return;
+            UpdateTextboxName();
+            if (loading)
+            {
+                return;
+            }
+
             Drawroi();
             execute();
         }
 
-        private void comboBoxcat_SelectedIndexChanged(object sender, EventArgs e)
+        private void ComboBoxcat_SelectedIndexChanged(object sender, EventArgs e)
         {
-            updateTextboxName();
+            UpdateTextboxName();
             UpdateTemplate(string.Empty);
-            if (loading) return;
+            if (loading)
+            {
+                return;
+            }
             execute();
         }
 
-        private void comboBoxType_SelectedIndexChanged(object sender, EventArgs e)
+        private void ComboBoxType_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(comboBoxType.Text)) type = (TestStepType)Enum.Parse(typeof(TestStepType), comboBoxType.Text);
-            if (loading) return;
+            if (!string.IsNullOrEmpty(comboBoxType.Text))
+            {
+                type = (TestStepType)Enum.Parse(typeof(TestStepType), comboBoxType.Text);
+            }
+
+            if (loading)
+            {
+                return;
+            }
+
             execute();
         }
 
@@ -144,7 +163,7 @@ namespace VisionSystemAmetek.TrainForm
             return true;
         }
 
-        private void updateTextboxName()
+        private void UpdateTextboxName()
         {
             textBoxName.Text = string.Empty;
             string Roi = string.Empty;
@@ -174,12 +193,12 @@ namespace VisionSystemAmetek.TrainForm
 
             ImageProcessed = VisionClass.PatternMatch(RoiImage, Template, 80, _RoiClass.Rectangle, comboBoxcat.Text, false, out resultScore, ref train);
             string key = string.Empty;
-            float acc =  0;
+            float acc = 0;
             List<string> log = new List<string>();
-            model.Test(VisionClass.ImageToByteArray(train.ToImage<Bgr,byte>()), ref key, ref acc,ref log, ProjectConfig.ModelPath);
+            model.Test(VisionClass.ImageToByteArray(train.ToImage<Bgr, byte>()), ref key, ref acc, ref log, ProjectConfig.ModelPath);
             pictureBoxMain.Image = ImageProcessed;
             PrintStatus(logType.Status, $"Roi: {_RoiClass.Name},Find: {key}, ACC: {acc}");
-            foreach (string d in log) 
+            foreach (string d in log)
             {
                 PrintStatus(logType.Status, d);
             }
@@ -200,53 +219,35 @@ namespace VisionSystemAmetek.TrainForm
                     msg = $"{log} \n";
                     break;
             }
-            this.Invoke((Action)delegate
+            Invoke(delegate
             {
                 listBoxLog.Items.Add(msg);
                 listBoxLog.TopIndex = listBoxLog.Items.Count - 1;
             });
         }
 
-        private void buttonTrain_Click(object sender, EventArgs e)
+        private void ButtonTrain_Click(object sender, EventArgs e)
         {
+            buttonTrain.Enabled = false;
             model.Training();
             LoadModel();
-            
         }
 
         #region Template
-        private void buttonFindFile_Click(object sender, EventArgs e)
+        private void ButtonFindFile_Click(object sender, EventArgs e)
         {
-            //var fileContent = string.Empty;
-            //var filePath = string.Empty;
-            //using (OpenFileDialog openFileDialog = new OpenFileDialog())
-            //{
-            //    openFileDialog.InitialDirectory = $"{ProjectConfig.TraiPath}{comboBoxcat.Text}";
-            //    openFileDialog.Filter = "Image Files (*.bmp;*.jpg;*.jpeg,*.png)|*.BMP;*.JPG;*.JPEG;*.PNG";
-            //    openFileDialog.FilterIndex = 1;
-            //    openFileDialog.RestoreDirectory = false;
-
-            //    if (openFileDialog.ShowDialog() == DialogResult.OK)
-            //    {
-            //        //Get the path of specified file
-            //        filePath = openFileDialog.FileName;
-            //        UpdateTemplate(filePath);
-            //        Template = new Bitmap(filePath);
-            //        execute();
-            //    }
-            //}
             string comboCategory = comboBoxcat.Text;
             using (PatternValidation Pattern = new PatternValidation(
                 ref model,
                 ProjectConfig,
                 RoiImage,
                 _RoiClass.Rectangle,
-                $"{ProjectConfig.TraiPath}{comboCategory}", 
+                $"{ProjectConfig.TraiPath}{comboCategory}",
                 comboCategory))
             {
                 Pattern.ShowDialog();
 
-                if (Pattern._Success) 
+                if (Pattern._Success)
                 {
                     Template = new Bitmap(Pattern._theBest.Path);
                     textBoxTemplate.Text = Pattern._theBest.Path;
@@ -256,15 +257,16 @@ namespace VisionSystemAmetek.TrainForm
             }
         }
 
-        private void UpdateTemplate(string path) 
+        private void UpdateTemplate(string path)
         {
-            TemplatePath =  path;
+            TemplatePath = path;
             textBoxTemplate.Text = TemplatePath;
         }
-
-
         #endregion
 
 
+        private void StepTestWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+        }
     }
 }

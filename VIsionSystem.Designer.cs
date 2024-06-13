@@ -211,11 +211,11 @@
             // tabPage5
             // 
             tabPage5.Controls.Add(dataGridViewReport);
-            tabPage5.Location = new Point(4, 26);
+            tabPage5.Location = new Point(4, 24);
             tabPage5.Margin = new Padding(3, 2, 3, 2);
             tabPage5.Name = "tabPage5";
             tabPage5.Padding = new Padding(3, 2, 3, 2);
-            tabPage5.Size = new Size(902, 310);
+            tabPage5.Size = new Size(902, 312);
             tabPage5.TabIndex = 1;
             tabPage5.Text = "Report";
             tabPage5.UseVisualStyleBackColor = true;
@@ -229,7 +229,7 @@
             dataGridViewReport.Name = "dataGridViewReport";
             dataGridViewReport.RowHeadersVisible = false;
             dataGridViewReport.RowHeadersWidth = 51;
-            dataGridViewReport.Size = new Size(896, 306);
+            dataGridViewReport.Size = new Size(896, 308);
             dataGridViewReport.TabIndex = 1;
             // 
             // panel7

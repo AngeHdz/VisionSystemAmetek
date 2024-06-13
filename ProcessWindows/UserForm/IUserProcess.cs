@@ -11,6 +11,10 @@ namespace VisionSystemAmetek.ProcessWindows.UserForm
 
         protected virtual void OnReportReached(UserArgs e)
         {
+            if (UpdaData == null)
+            {
+                return;
+            }
             UpdaData.Invoke(this, e);
         }
     }

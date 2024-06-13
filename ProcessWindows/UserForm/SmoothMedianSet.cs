@@ -1,6 +1,4 @@
-﻿
-using EmguClass.Resources.Setting;
-
+﻿using EmguClass.Resources.Setting;
 
 namespace VisionSystemAmetek.ProcessWindows.UserForm
 {
@@ -52,7 +50,11 @@ namespace VisionSystemAmetek.ProcessWindows.UserForm
 
         private protected void Report()
         {
-            OnReportReached(new UserArgs(new Settings() { Size = size, Type = EmguClass.TypeProcess.SmoothMedian }));
+            OnReportReached(new UserArgs(new Settings()
+            {
+                Size = size,
+                Type = EmguClass.TypeProcess.SmoothMedian
+            }));
         }
     }
 }

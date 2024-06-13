@@ -91,7 +91,7 @@
             buttonSave.TabIndex = 2;
             buttonSave.Text = "Save";
             buttonSave.UseVisualStyleBackColor = false;
-            buttonSave.Click += buttonSave_Click;
+            buttonSave.Click += ButtonSave_Click;
             // 
             // comboBoxRoi
             // 
@@ -100,7 +100,7 @@
             comboBoxRoi.Name = "comboBoxRoi";
             comboBoxRoi.Size = new Size(265, 23);
             comboBoxRoi.TabIndex = 3;
-            comboBoxRoi.SelectedIndexChanged += comboBoxRoi_SelectedIndexChanged;
+            comboBoxRoi.SelectedIndexChanged += ComboBoxRoi_SelectedIndexChanged;
             // 
             // label1
             // 
@@ -127,7 +127,7 @@
             comboBoxcat.Name = "comboBoxcat";
             comboBoxcat.Size = new Size(265, 23);
             comboBoxcat.TabIndex = 6;
-            comboBoxcat.SelectedIndexChanged += comboBoxcat_SelectedIndexChanged;
+            comboBoxcat.SelectedIndexChanged += ComboBoxcat_SelectedIndexChanged;
             // 
             // panel1
             // 
@@ -170,7 +170,7 @@
             buttonFindFile.TabIndex = 2;
             buttonFindFile.Text = "Find";
             buttonFindFile.UseVisualStyleBackColor = true;
-            buttonFindFile.Click += buttonFindFile_Click;
+            buttonFindFile.Click += ButtonFindFile_Click;
             // 
             // textBoxTemplate
             // 
@@ -214,7 +214,7 @@
             buttonTrain.TabIndex = 10;
             buttonTrain.Text = "Train";
             buttonTrain.UseVisualStyleBackColor = false;
-            buttonTrain.Click += buttonTrain_Click;
+            buttonTrain.Click += ButtonTrain_Click;
             // 
             // buttonCancel
             // 
@@ -230,7 +230,7 @@
             buttonCancel.TabIndex = 9;
             buttonCancel.Text = "Cancel";
             buttonCancel.UseVisualStyleBackColor = false;
-            buttonCancel.Click += buttonCancel_Click;
+            buttonCancel.Click += ButtonCancel_Click;
             // 
             // panel3
             // 
@@ -264,7 +264,7 @@
             comboBoxType.Name = "comboBoxType";
             comboBoxType.Size = new Size(265, 23);
             comboBoxType.TabIndex = 7;
-            comboBoxType.SelectedIndexChanged += comboBoxType_SelectedIndexChanged;
+            comboBoxType.SelectedIndexChanged += ComboBoxType_SelectedIndexChanged;
             // 
             // panel2
             // 
@@ -321,6 +321,7 @@
             Name = "StepTestWindow";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "StepTestWindow";
+            FormClosing += StepTestWindow_FormClosing;
             panel1.ResumeLayout(false);
             panel5.ResumeLayout(false);
             groupBox1.ResumeLayout(false);

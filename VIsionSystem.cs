@@ -2,6 +2,10 @@ using MLClass;
 using VisionSystemConfigFile;
 using VisionSystemAmetek.Train.Forms;
 using VisionSystemAmetek.Runtime;
+using TestStandSupport.Pipe;
+using System.Windows.Forms;
+using System.Runtime.CompilerServices;
+using System.Diagnostics;
 
 namespace VisionSystemAmetek
 {
@@ -16,8 +20,10 @@ namespace VisionSystemAmetek
         private ProjectConfig _CurrentTestProject;
         private string _CurrentModel = string.Empty;
         private bool PanelButton;
+        private string CurrentServer = string.Empty;
         private Engine _engine;
-
+        private PipeServer _pipeServer;
+        private PipeClient _pipeClient = new PipeClient();
 
         #endregion
 
@@ -41,6 +47,9 @@ namespace VisionSystemAmetek
             trainUserControl1.Hide();
             buttonTest.Enabled = false;
             comboBoxModels.DropDownStyle = ComboBoxStyle.DropDownList;
+            Process currentProcess = Process.GetCurrentProcess();
+            CurrentServer = PipeClass.PipeInfo.ClientName + currentProcess.Id;
+            ListenPipe();
         }
 
         private void Telltale_OnReportTime(object? sender, EmguClass.Args.TimerEventArgs e)
@@ -114,6 +123,70 @@ namespace VisionSystemAmetek
                 }
                 Onfinish();
             });
+        }
+
+        #endregion
+
+        #region Pipe
+        private void ListenPipe()
+        {
+            try
+            {
+                _pipeServer = new PipeServer();
+                _pipeServer.Listen(PipeClass.PipeInfo.ServerName);
+                _pipeServer.PipeMessage += _pipeServer_PipeMessage;
+            }
+            catch (Exception e)
+            {
+                e.ToString();
+            }
+        }
+        private void SendPipe(string Client, PipeClass.Functions Function, string msg)
+        {
+            _pipeClient.Send(CurrentServer + "#" + Function.ToString() + "#" + msg, Client, 1);
+        }
+
+        private void _pipeServer_PipeMessage(string msg)
+        {
+            try
+            {
+                Interprete(msg);
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+            }
+        }
+
+        private void Interprete(string msg)
+        {
+            PipeMsg pipeMsg = new PipeMsg(msg);
+            switch (pipeMsg.Function)
+            {
+                case PipeClass.Functions.SetFileProject:
+                    SetFilePath(pipeMsg);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        #endregion
+
+        #region Functions
+
+        private void SetFilePath(PipeMsg pipeMsg)
+        {
+            _CurrentTestProject = ConfigFile.LoadConfig(pipeMsg.settings[0]);
+
+            if (_CurrentTestProject != null)
+            {
+                Invoke(delegate
+                {
+                    LoadModels(pipeMsg.settings[1]);
+                });
+            }
+            SendPipe(pipeMsg.ServerName,pipeMsg.Function, "OK&");
         }
 
         #endregion
@@ -411,9 +484,14 @@ namespace VisionSystemAmetek
             }
         }
 
-        private void LoadModels()
+        private void LoadModels(string model = "")
         {
             comboBoxModels.DataSource = _CurrentTestProject.Models.Select(x => x.ModelName).ToList();
+            if (model != string.Empty)
+            {
+                comboBoxModels.Text = model;
+                
+            }
         }
 
 

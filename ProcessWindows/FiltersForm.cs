@@ -1,11 +1,9 @@
-﻿
-using Emgu.CV;
+﻿using Emgu.CV;
 using Emgu.CV.Structure;
 using EmguClass;
 using EmguClass.Dictionary;
-using EmguClass.Resources;
 using EmguClass.Resources.Setting;
-using EmguClass.Resources.Setting.Interface;
+using VisionSystemAmetek.Dictionary;
 using VisionSystemAmetek.ProcessWindows.UserForm;
 using VisionSystemConfigFile;
 
@@ -15,8 +13,8 @@ namespace VisionSystemAmetek.ProcessWindows
     {
         private Bitmap Image;
         private Bitmap Imageprocessed;
-        TypeProcess type;
-        SmoothMedianSet smoothMedianSet;
+        private TypeProcess type;
+        private IUserProcess Tool;
         private Settings Data;
         public ProcessClass processImage;
         public bool Success;
@@ -30,11 +28,6 @@ namespace VisionSystemAmetek.ProcessWindows
             Image = image;
             pictureBoxOriginal.Image = Image;
             pictureBoxProcessed.Image = Image;
-            smoothMedianSet = new SmoothMedianSet();
-            smoothMedianSet.UpdaData += ExecuteProcess;
-            smoothMedianSet.Hide();
-            smoothMedianSet.Dock = DockStyle.Fill;
-            panelTool.Controls.Add(smoothMedianSet);
 
             panelOriginal.MouseWheel += PanelOriginal_MouseWheel;
             panelProcessed.MouseWheel += PanelProcessed_MouseWheel;
@@ -51,37 +44,25 @@ namespace VisionSystemAmetek.ProcessWindows
 
         private void ComboBoxFilters_SelectedIndexChanged(object sender, EventArgs e)
         {
-            type = (TypeProcess)Enum.Parse(typeof(TypeProcess), comboBoxFilters.Text);
-            switch (type)
+            if (Tool != null)
             {
-                case TypeProcess.SmoothMedian:
-                    SmootMedian();
-                    break;
-                case TypeProcess.Canny:
-                    Canny();
-                    break;
-                case TypeProcess.Led_Ambar:
-                    break;
-                case TypeProcess.None:
-                    break;
-                case TypeProcess.SmoothBlur:
-                    break;
-                default:
-                    break;
+                Tool.UpdaData -= ExecuteProcess;
+                Tool.Dispose();
+                panelTool.Controls.Remove(Tool);
             }
-
-
+            type = (TypeProcess)Enum.Parse(typeof(TypeProcess), comboBoxFilters.Text);
+            Tool = DictionaryClass.GetPanel(type);
+            if (Tool == null)
+            {
+                return;
+            }
+            Tool.UpdaData += ExecuteProcess;
+            Tool.Hide();
+            Tool.Dock = DockStyle.Fill;
+            panelTool.Controls.Add(Tool);
+            Tool.Show();
         }
 
-        private void SmootMedian()
-        {
-            smoothMedianSet?.Show();
-        }
-
-        private void Canny()
-        {
-            smoothMedianSet.Hide();
-        }
 
         private void ButtonAccept_Click(object sender, EventArgs e)
         {

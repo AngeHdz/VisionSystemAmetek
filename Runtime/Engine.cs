@@ -2,6 +2,7 @@
 using Emgu.CV.Structure;
 using EmguClass;
 using EmguClass.Args;
+using EmguClass.Dictionary;
 using EmguClass.Resources;
 using EmguClass.Results;
 using EmguClass.Results.Types;
@@ -104,6 +105,12 @@ namespace VisionSystemAmetek.Runtime
                 }
             }
         }
+
+        private void ProcessImage2()
+        {
+            _imageProcessed = _imageOriginal.Copy();
+        }
+
         private void ProcessSteps()
         {
             _imageTested = _imageProcessed.Copy();

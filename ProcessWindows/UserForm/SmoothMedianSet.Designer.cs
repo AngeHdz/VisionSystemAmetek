@@ -36,7 +36,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(3, 10);
+            label1.Location = new Point(44, 16);
             label1.Name = "label1";
             label1.Size = new Size(30, 15);
             label1.TabIndex = 0;
@@ -44,21 +44,21 @@
             // 
             // numericUpDownSize
             // 
-            numericUpDownSize.Location = new Point(39, 10);
+            numericUpDownSize.Location = new Point(80, 16);
             numericUpDownSize.Name = "numericUpDownSize";
             numericUpDownSize.Size = new Size(53, 23);
             numericUpDownSize.TabIndex = 1;
             numericUpDownSize.Click += NumericUpDownSize_Click;
             numericUpDownSize.KeyUp += NumericUpDownSize_KeyUp;
             // 
-            // SmoothMedian
+            // SmoothMedianSet
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(numericUpDownSize);
             Controls.Add(label1);
-            Name = "SmoothMedian";
-            Size = new Size(120, 145);
+            Name = "SmoothMedianSet";
+            Size = new Size(200, 145);
             ((System.ComponentModel.ISupportInitialize)numericUpDownSize).EndInit();
             ResumeLayout(false);
             PerformLayout();
