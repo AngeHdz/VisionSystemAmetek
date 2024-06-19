@@ -24,6 +24,8 @@ namespace VisionSystemAmetek
         private Engine _engine;
         private PipeServer _pipeServer;
         private PipeClient _pipeClient = new PipeClient();
+        private string FileImageRemote;
+        private PipeMsg CpipeMsg;
 
         #endregion
 
@@ -166,6 +168,9 @@ namespace VisionSystemAmetek
                 case PipeClass.Functions.SetFileProject:
                     SetFilePath(pipeMsg);
                     break;
+                case PipeClass.Functions.StartInspection:
+                    StartProcess(pipeMsg);
+                    break;
                 default:
                     break;
             }
@@ -174,6 +179,24 @@ namespace VisionSystemAmetek
         #endregion
 
         #region Functions
+
+        private void StartProcess(PipeMsg pipeMsg)
+        {
+            if (pipeMsg.settings.Length > 0)
+            {
+                FileImageRemote = pipeMsg.settings[0];
+            }
+            try
+            {
+                Invoke(buttonTest.PerformClick);
+                CpipeMsg = pipeMsg;
+                //SendPipe(pipeMsg.ServerName, pipeMsg.Function, "OK&");
+            }
+            catch
+            {
+                SendPipe(pipeMsg.ServerName, pipeMsg.Function, "Error&");
+            }
+        }
 
         private void SetFilePath(PipeMsg pipeMsg)
         {
@@ -186,7 +209,7 @@ namespace VisionSystemAmetek
                     LoadModels(pipeMsg.settings[1]);
                 });
             }
-            SendPipe(pipeMsg.ServerName,pipeMsg.Function, "OK&");
+            SendPipe(pipeMsg.ServerName, pipeMsg.Function, "OK&");
         }
 
         #endregion
@@ -236,18 +259,20 @@ namespace VisionSystemAmetek
         private void Onfinish()
         {
             buttonTest.Enabled = true;
-
+            FileImageRemote = string.Empty;
             buttonTest.BackColor = Color.PaleGreen;
         }
 
         private void Pass()
         {
+            SendPipe(CpipeMsg.ServerName, CpipeMsg.Function, "PASS&");
             labelStatus.Text = "Passed";
             labelStatus.ForeColor = Color.White;
             labelStatus.BackColor = Color.Green;
         }
         private void Fail()
         {
+            SendPipe(CpipeMsg.ServerName, CpipeMsg.Function, "FAIL&");
             labelStatus.Text = "Failed";
             labelStatus.ForeColor = Color.White;
             labelStatus.BackColor = Color.Red;
@@ -314,6 +339,10 @@ namespace VisionSystemAmetek
         private void ButtonTest_Click(object sender, EventArgs e)
         {
             Clear();
+            if (!string.IsNullOrEmpty(FileImageRemote))
+            {
+                _engine.ImageFileFromRemote = FileImageRemote;
+            }
             _engine.RunAsyncProcess();
             OnStart();
         }
@@ -490,7 +519,6 @@ namespace VisionSystemAmetek
             if (model != string.Empty)
             {
                 comboBoxModels.Text = model;
-                
             }
         }
 

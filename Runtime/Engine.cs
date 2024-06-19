@@ -22,7 +22,7 @@ namespace VisionSystemAmetek.Runtime
         public event EventHandler<ImageEventArgs> OnReportImage;
         public event EventHandler<TimerEventArgs> OnReportTime;
         private MLModel _model;
-
+        public string ImageFileFromRemote;
 
         public Engine(ProjectConfig project, string model)
         {
@@ -175,6 +175,13 @@ namespace VisionSystemAmetek.Runtime
 
         private void GetFile(ProjectConfig Project)
         {
+            if (!string.IsNullOrEmpty(ImageFileFromRemote))
+            {
+                _imageOriginal = gettingFile(ImageFileFromRemote);
+                OnImageReached(new ImageEventArgs("Processed Image", _imageOriginal.ToBitmap()));
+                return;
+            }
+
             OpenFileDialog of = new();
             if (Project.LastDirFile != string.Empty)
             {
